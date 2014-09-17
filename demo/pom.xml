@@ -206,6 +206,22 @@
             <scope>provided</scope>
         </dependency>
 
+		<!-- Tomitribe CREST dependencies -->
+		<dependency>
+			<groupId>org.tomitribe</groupId>
+			<artifactId>crest-connector-api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.tomitribe</groupId>
+			<artifactId>tomitribe-crest-api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		
+
     </dependencies>
 
     <build>
