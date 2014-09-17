@@ -3,6 +3,7 @@ package org.jboss.jdf.example.ticketmonster.command;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,9 +44,18 @@ public class VenueCommand implements CrestListener {
             
             @Override
             public void write(OutputStream os) throws IOException {
-                PrintWriter pw = new PrintWriter(os);
-                pw.println(results.size() + " results found");
-                pw.flush();
+                final PrintWriter pw = new PrintWriter(os);
+
+                List<DisplayField> fieldNames = Arrays.asList(new DisplayField[] {
+                        new DisplayField("id", "ID"),
+                        new DisplayField("name", "Venue Name"),
+                        new DisplayField("capacity", "Capacity"),
+                        new DisplayField("address", "Address")
+                });
+                
+                final AlignedTablePrinter tablePrinter = new AlignedTablePrinter(fieldNames, pw);
+                tablePrinter.printRows(results, true);
+                tablePrinter.finish();
             }
         };
 	}
