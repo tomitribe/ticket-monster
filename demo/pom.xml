@@ -520,6 +520,9 @@
             <configuration>
               <tomeeVersion>1.7.1</tomeeVersion>
               <tomeeClassifier>plus</tomeeClassifier>
+              <debug>false</debug>
+      	      <debugPort>5005</debugPort>
+      	      <args>-Dopenejb.validation.output.level=VERBOSE</args>
             </configuration>
           </plugin>
         </plugins>
