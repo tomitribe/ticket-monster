@@ -4,9 +4,9 @@ import java.net.URL;
 
 /**
  * Utilities relating to Java reflection
- * 
+ *
  * @author pmuir
- * 
+ *
  */
 public class Reflections {
 

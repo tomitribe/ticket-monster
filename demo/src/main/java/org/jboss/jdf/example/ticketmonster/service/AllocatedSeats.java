@@ -1,9 +1,9 @@
 package org.jboss.jdf.example.ticketmonster.service;
 
-import java.util.List;
-
 import org.jboss.jdf.example.ticketmonster.model.Seat;
 import org.jboss.jdf.example.ticketmonster.model.SectionAllocation;
+
+import java.util.List;
 
 /**
  * A transient object which represents a collection of pre-allocated seats

@@ -47,7 +47,7 @@ public class Seat {
     public int getNumber() {
         return number;
     }
-    
+
     @Override
     public String toString() {
         return new StringBuilder().append(getSection()).append(" (").append(getRowNumber()).append(", ").append(getNumber()).append(")").toString();

@@ -6,10 +6,10 @@ import org.jboss.jdf.example.ticketmonster.model.TicketPrice;
  * <p>
  * A {@link BookingRequest} will contain multiple {@link TicketRequest}s.
  * </p>
- * 
+ *
  * @author Marius Bogoevici
  * @author Pete Muir
- * 
+ *
  */
 public class TicketRequest {
 

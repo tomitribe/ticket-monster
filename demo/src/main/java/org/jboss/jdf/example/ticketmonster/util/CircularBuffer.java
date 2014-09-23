@@ -18,7 +18,7 @@ public class CircularBuffer<T> {
 
     public void add(T item) {
         synchronized (buffer) {
-            buffer[(cursor++)%capacity] = item;
+            buffer[(cursor++) % capacity] = item;
 
         }
     }
@@ -27,16 +27,16 @@ public class CircularBuffer<T> {
         List<T> returnedItems = new ArrayList<T>();
         synchronized (buffer) {
             if (cursor > capacity) {
-                for (int i= cursor % capacity; i<capacity; i++) {
+                for (int i = cursor % capacity; i < capacity; i++) {
                     returnedItems.add(buffer[i]);
                 }
-                for (int i= 0; i<cursor % capacity; i++) {
+                for (int i = 0; i < cursor % capacity; i++) {
                     returnedItems.add(buffer[i]);
                 }
 
                 return returnedItems;
             } else {
-                for (int i= 0; i<cursor; i++) {
+                for (int i = 0; i < cursor; i++) {
                     returnedItems.add(buffer[i]);
                 }
             }

@@ -1,8 +1,6 @@
 package org.jboss.jdf.example.ticketmonster.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,20 +9,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * <p>
  * Contains price categories - each category represents the price for a ticket in a particular section at a particular venue for
  * a particular event, for a particular ticket category.
  * </p>
- * 
+ *
  * <p>
  * The section, show and ticket category form the natural id of this entity, and therefore must be unique. JPA requires us to use the class level
  * <code>@Table</code> constraint
  * </p>
- * 
+ *
  * @author Shane Bryzak
  * @author Pete Muir
  */
@@ -36,7 +35,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @Entity
 // TODO Document @JsonIgnoreProperties
 @JsonIgnoreProperties("show")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "section_id", "show_id", "ticketcategory_id" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"section_id", "show_id", "ticketcategory_id"}))
 public class TicketPrice implements Serializable {
 
     /* Declaration of fields */
@@ -52,7 +51,7 @@ public class TicketPrice implements Serializable {
      * <p>
      * The show to which this ticket price category belongs. The <code>@ManyToOne<code> JPA mapping establishes this relationship.
      * </p>
-     * 
+     *
      * <p>
      * The <code>@NotNull</code> Bean Validation constraint means that the show must be specified.
      * </p>
@@ -65,7 +64,7 @@ public class TicketPrice implements Serializable {
      * <p>
      * The section to which this ticket price category belongs. The <code>@ManyToOne<code> JPA mapping establishes this relationship.
      * </p>
-     * 
+     *
      * <p>
      * The <code>@NotNull</code> Bean Validation constraint means that the section must be specified.
      * </p>
@@ -78,7 +77,7 @@ public class TicketPrice implements Serializable {
      * <p>
      * The ticket category to which this ticket price category belongs. The <code>@ManyToOne<code> JPA mapping establishes this relationship.
      * </p>
-     * 
+     *
      * <p>
      * The <code>@NotNull</code> Bean Validation constraint means that the ticket category must be specified.
      * </p>
@@ -93,7 +92,7 @@ public class TicketPrice implements Serializable {
     private float price;
 
     /* Boilerplate getters and setters */
-    
+
     public Long getId() {
         return id;
     }
@@ -135,7 +134,7 @@ public class TicketPrice implements Serializable {
     }
 
     /* equals() and hashCode() for TicketPrice, using the natural identity of the object */
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -165,6 +164,6 @@ public class TicketPrice implements Serializable {
 
     @Override
     public String toString() {
-        return "$ " + price + " for " + ticketCategory + " in " + section; 
+        return "$ " + price + " for " + ticketCategory + " in " + section;
     }
 }

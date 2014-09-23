@@ -1,7 +1,6 @@
 package org.jboss.jdf.example.ticketmonster.rest;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jboss.jdf.example.ticketmonster.model.Show;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -14,8 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-
-import org.jboss.jdf.example.ticketmonster.model.Show;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Marius Bogoevici
@@ -36,8 +35,8 @@ public class ShowService extends BaseEntityService<Show> {
     @Override
     protected Predicate[] extractPredicates(MultivaluedMap<String,
             String> queryParameters,
-            CriteriaBuilder criteriaBuilder,
-            Root<Show> root) {
+                                            CriteriaBuilder criteriaBuilder,
+                                            Root<Show> root) {
 
         List<Predicate> predicates = new ArrayList<Predicate>();
 

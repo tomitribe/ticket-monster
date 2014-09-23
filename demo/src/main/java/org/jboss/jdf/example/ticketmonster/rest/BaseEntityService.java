@@ -1,9 +1,5 @@
 package org.jboss.jdf.example.ticketmonster.rest;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -19,6 +15,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -73,8 +72,9 @@ public abstract class BaseEntityService<T> {
 
     private Class<T> entityClass;
 
-    public BaseEntityService() {}
-    
+    public BaseEntityService() {
+    }
+
     public BaseEntityService(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
@@ -97,7 +97,7 @@ public abstract class BaseEntityService<T> {
     public List<T> getAll(@Context UriInfo uriInfo) {
         return getAll(uriInfo.getQueryParameters());
     }
-    
+
     public List<T> getAll(MultivaluedMap<String, String> queryParameters) {
         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -107,14 +107,14 @@ public abstract class BaseEntityService<T> {
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("id")));
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
         if (queryParameters.containsKey("first")) {
-        	Integer firstRecord = Integer.parseInt(queryParameters.getFirst("first"))-1;
-        	query.setFirstResult(firstRecord);
+            Integer firstRecord = Integer.parseInt(queryParameters.getFirst("first")) - 1;
+            query.setFirstResult(firstRecord);
         }
         if (queryParameters.containsKey("maxResults")) {
-        	Integer maxResults = Integer.parseInt(queryParameters.getFirst("maxResults"));
-        	query.setMaxResults(maxResults);
+            Integer maxResults = Integer.parseInt(queryParameters.getFirst("maxResults"));
+            query.setMaxResults(maxResults);
         }
-		return query.getResultList();
+        return query.getResultList();
     }
 
     /**

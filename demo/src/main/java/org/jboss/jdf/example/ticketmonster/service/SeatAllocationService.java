@@ -1,16 +1,15 @@
 package org.jboss.jdf.example.ticketmonster.service;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-
 import org.jboss.jdf.example.ticketmonster.model.Performance;
 import org.jboss.jdf.example.ticketmonster.model.Seat;
 import org.jboss.jdf.example.ticketmonster.model.SeatAllocationException;
 import org.jboss.jdf.example.ticketmonster.model.Section;
 import org.jboss.jdf.example.ticketmonster.model.SectionAllocation;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import java.util.List;
 
 /**
  *
@@ -20,7 +19,6 @@ import org.jboss.jdf.example.ticketmonster.model.SectionAllocation;
  */
 @SuppressWarnings("serial")
 public class SeatAllocationService {
-
 
 
     @Inject
@@ -44,12 +42,12 @@ public class SeatAllocationService {
 
     private SectionAllocation retrieveSectionAllocationExclusively(Section section, Performance performance) {
         SectionAllocation sectionAllocationStatus = (SectionAllocation) entityManager.createQuery(
-													"select s from SectionAllocation s where " +
-													"s.performance.id = :performanceId and " +
-													"s.section.id = :sectionId")
-													.setParameter("performanceId", performance.getId())
-													.setParameter("sectionId", section.getId())
-													.getSingleResult();
+                "select s from SectionAllocation s where " +
+                        "s.performance.id = :performanceId and " +
+                        "s.section.id = :sectionId")
+                .setParameter("performanceId", performance.getId())
+                .setParameter("sectionId", section.getId())
+                .getSingleResult();
         entityManager.lock(sectionAllocationStatus, LockModeType.PESSIMISTIC_WRITE);
         return sectionAllocationStatus;
     }

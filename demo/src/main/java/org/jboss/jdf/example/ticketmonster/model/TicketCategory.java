@@ -1,21 +1,20 @@
 package org.jboss.jdf.example.ticketmonster.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-import java.io.Serializable;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * <p>
  * A lookup table containing the various ticket categories. E.g. Adult, Child, Pensioner, etc.
  * </p>
- * 
+ *
  * @author Shane Bryzak
  * @author Pete Muir
  */
@@ -40,16 +39,16 @@ public class TicketCategory implements Serializable {
      * <p>
      * The description of the of ticket category.
      * </p>
-     * 
+     *
      * <p>
      * The description forms the natural id of the ticket category, and so must be unique.
      * </p>
-     * 
+     *
      * <p>
      * The description must not be null and must be one or more characters, the Bean Validation constrain <code>@NotEmpty</code>
      * enforces this.
      * </p>
-     * 
+     *
      */
     @Column(unique = true)
     @NotEmpty

@@ -7,7 +7,7 @@ import java.util.Set;
 public abstract class ForwardingMap<K, V> implements Map<K, V> {
 
     protected abstract Map<K, V> delegate();
-    
+
     @Override
     public void clear() {
         delegate().clear();
@@ -67,17 +67,17 @@ public abstract class ForwardingMap<K, V> implements Map<K, V> {
     public Collection<V> values() {
         return delegate().values();
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         return delegate().equals(obj);
     }
-    
+
     @Override
     public int hashCode() {
         return delegate().hashCode();
     }
-    
+
     public String toString() {
         return delegate().toString();
     }

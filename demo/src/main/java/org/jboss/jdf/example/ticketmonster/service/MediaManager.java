@@ -1,7 +1,11 @@
 package org.jboss.jdf.example.ticketmonster.service;
 
-import static org.jboss.jdf.example.ticketmonster.model.MediaType.IMAGE;
+import org.jboss.jdf.example.ticketmonster.model.MediaItem;
+import org.jboss.jdf.example.ticketmonster.model.MediaType;
+import org.jboss.jdf.example.ticketmonster.util.Base64;
+import org.jboss.jdf.example.ticketmonster.util.Reflections;
 
+import javax.enterprise.context.RequestScoped;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,30 +21,25 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
-
-import org.jboss.jdf.example.ticketmonster.model.MediaItem;
-import org.jboss.jdf.example.ticketmonster.model.MediaType;
-import org.jboss.jdf.example.ticketmonster.util.Base64;
-import org.jboss.jdf.example.ticketmonster.util.Reflections;
+import static org.jboss.jdf.example.ticketmonster.model.MediaType.IMAGE;
 
 /**
  * <p>
  * The media manager is responsible for taking a media item, and returning either the URL of the cached version (if the
  * application cannot load the item from the URL), or the original URL.
  * </p>
- * 
+ *
  * <p>
  * The media manager also transparently caches the media items on first load.
  * </p>
- * 
+ *
  * <p>
  * The computed URLs are cached for the duration of a request. This provides a good balance between consuming heap space, and
  * computational time.
  * </p>
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @RequestScoped
 public class MediaManager {
@@ -74,7 +73,7 @@ public class MediaManager {
 
     /**
      * Load a cached file by name
-     * 
+     *
      * @param fileName
      * @return
      */
@@ -102,9 +101,9 @@ public class MediaManager {
      * cachable, it is first cached in the tmp directory, and then path to load it is returned.
      */
     private MediaPath createPath(MediaItem mediaItem) {
-    	if(mediaItem == null) {
-    		return createCachedMedia(Reflections.getResource("not_available.jpg").toExternalForm(), IMAGE);
-    	} else if (!mediaItem.getMediaType().isCacheable()) {
+        if (mediaItem == null) {
+            return createCachedMedia(Reflections.getResource("not_available.jpg").toExternalForm(), IMAGE);
+        } else if (!mediaItem.getMediaType().isCacheable()) {
             if (checkResourceAvailable(mediaItem)) {
                 return new MediaPath(mediaItem.getUrl(), false, mediaItem.getMediaType());
             } else {

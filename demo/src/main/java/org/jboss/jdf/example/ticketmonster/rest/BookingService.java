@@ -1,12 +1,17 @@
 package org.jboss.jdf.example.ticketmonster.rest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import org.jboss.jdf.example.ticketmonster.model.Booking;
+import org.jboss.jdf.example.ticketmonster.model.Performance;
+import org.jboss.jdf.example.ticketmonster.model.Seat;
+import org.jboss.jdf.example.ticketmonster.model.Section;
+import org.jboss.jdf.example.ticketmonster.model.Ticket;
+import org.jboss.jdf.example.ticketmonster.model.TicketCategory;
+import org.jboss.jdf.example.ticketmonster.model.TicketPrice;
+import org.jboss.jdf.example.ticketmonster.service.AllocatedSeats;
+import org.jboss.jdf.example.ticketmonster.service.SeatAllocationService;
+import org.jboss.jdf.example.ticketmonster.util.MultivaluedHashMap;
+import org.jboss.jdf.example.ticketmonster.util.qualifier.Cancelled;
+import org.jboss.jdf.example.ticketmonster.util.qualifier.Created;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -20,19 +25,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.jboss.jdf.example.ticketmonster.model.Booking;
-import org.jboss.jdf.example.ticketmonster.model.Performance;
-import org.jboss.jdf.example.ticketmonster.model.Seat;
-import org.jboss.jdf.example.ticketmonster.model.Section;
-import org.jboss.jdf.example.ticketmonster.model.Ticket;
-import org.jboss.jdf.example.ticketmonster.model.TicketCategory;
-import org.jboss.jdf.example.ticketmonster.model.TicketPrice;
-import org.jboss.jdf.example.ticketmonster.service.AllocatedSeats;
-import org.jboss.jdf.example.ticketmonster.service.SeatAllocationService;
-import org.jboss.jdf.example.ticketmonster.util.MultivaluedHashMap;
-import org.jboss.jdf.example.ticketmonster.util.qualifier.Cancelled;
-import org.jboss.jdf.example.ticketmonster.util.qualifier.Created;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * <p>
@@ -55,22 +54,24 @@ public class BookingService extends BaseEntityService<Booking> {
     @Inject
     SeatAllocationService seatAllocationService;
 
-    @Inject @Cancelled
+    @Inject
+    @Cancelled
     private Event<Booking> cancelledBookingEvent;
 
-    @Inject @Created
+    @Inject
+    @Created
     private Event<Booking> newBookingEvent;
-    
+
     public BookingService() {
         super(Booking.class);
     }
-    
+
     @DELETE
     public Response deleteAllBookings() {
-    	List<Booking> bookings = getAll(new MultivaluedHashMap<String, String>());
-    	for (Booking booking : bookings) {
-    		deleteBooking(booking.getId());
-    	}
+        List<Booking> bookings = getAll(new MultivaluedHashMap<String, String>());
+        for (Booking booking : bookings) {
+            deleteBooking(booking.getId());
+        }
         return Response.noContent().build();
     }
 
@@ -101,7 +102,7 @@ public class BookingService extends BaseEntityService<Booking> {
         }
         // Deallocate each section block
         for (Map.Entry<Section, List<Seat>> sectionListEntry : seatsBySection.entrySet()) {
-            seatAllocationService.deallocateSeats( sectionListEntry.getKey(),
+            seatAllocationService.deallocateSeats(sectionListEntry.getKey(),
                     booking.getPerformance(), sectionListEntry.getValue());
         }
         cancelledBookingEvent.fire(booking);
@@ -125,7 +126,7 @@ public class BookingService extends BaseEntityService<Booking> {
         try {
             // identify the ticket price categories in this request
             Set<Long> priceCategoryIds = bookingRequest.getUniquePriceCategoryIds();
-            
+
             // load the entities that make up this booking's relationships
             Performance performance = getEntityManager().find(Performance.class, bookingRequest.getPerformance());
 
@@ -169,7 +170,7 @@ public class BookingService extends BaseEntityService<Booking> {
                     totalTicketsRequestedPerSection += ticketRequest.getQuantity();
                 }
                 // try to allocate seats
-                
+
                 AllocatedSeats allocatedSeats = seatAllocationService.allocateSeats(section, performance, totalTicketsRequestedPerSection, true);
                 if (allocatedSeats.getSeats().size() == totalTicketsRequestedPerSection) {
                     seatsPerSection.put(section, allocatedSeats);

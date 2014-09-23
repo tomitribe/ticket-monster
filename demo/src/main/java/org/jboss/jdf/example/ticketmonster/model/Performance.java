@@ -1,10 +1,6 @@
 package org.jboss.jdf.example.ticketmonster.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
-import static javax.persistence.TemporalType.TIMESTAMP;
-
-import java.io.Serializable;
-import java.util.Date;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,19 +10,22 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 /**
  * <p>
  * A performance represents a single instance of a show.
  * </p>
- * 
+ *
  * <p>
  * The show and date form the natural id of this entity, and therefore must be unique. JPA requires us to use the class level
  * <code>@Table</code> constraint.
  * </p>
- * 
+ *
  * @author Marius Bogoevici
  * @author Pete Muir
  */
@@ -36,7 +35,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "date", "show_id" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"date", "show_id"}))
 // TODO Document use of @JsonIgnoreProperties
 @JsonIgnoreProperties("show")
 public class Performance implements Serializable {
@@ -54,12 +53,12 @@ public class Performance implements Serializable {
      * <p>
      * The date and start time of the performance.
      * </p>
-     * 
+     *
      * <p>
      * A Java {@link Date} object represents both a date and a time, whilst an RDBMS splits out Date, Time and Timestamp.
      * Therefore we instruct JPA to store this date as a timestamp using the <code>@Temporal(TIMESTAMP)</code> annotation.
      * </p>
-     * 
+     *
      * <p>
      * The date and time of the performance is required, and the Bean Validation constraint <code>@NotNull</code> enforces this.
      * </p>
@@ -72,7 +71,7 @@ public class Performance implements Serializable {
      * <p>
      * The show of which this is a performance. The <code>@ManyToOne<code> JPA mapping establishes this relationship.
      * </p>
-     * 
+     *
      * <p>
      * The show of which this is a performance is required, and the Bean Validation constraint <code>@NotNull</code> enforces
      * this.
@@ -133,9 +132,9 @@ public class Performance implements Serializable {
         result = 31 * result + (show != null ? show.hashCode() : 0);
         return result;
     }
-    
+
     @Override
     public String toString() {
-        return show + " on " + date.toString(); 
+        return show + " on " + date.toString();
     }
 }

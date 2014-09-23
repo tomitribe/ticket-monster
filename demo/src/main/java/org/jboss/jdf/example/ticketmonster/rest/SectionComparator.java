@@ -1,19 +1,19 @@
 package org.jboss.jdf.example.ticketmonster.rest;
 
-import java.util.Comparator;
-
 import org.jboss.jdf.example.ticketmonster.model.Section;
+
+import java.util.Comparator;
 
 /**
  * A utility comparator for sections, sorting them by id
  *
-* @author Marius Bogoevici
-*/
+ * @author Marius Bogoevici
+ */
 public class SectionComparator implements Comparator<Section> {
 
     private static final SectionComparator INSTANCE = new SectionComparator();
 
-    private SectionComparator(){
+    private SectionComparator() {
     }
 
     public static SectionComparator instance() {

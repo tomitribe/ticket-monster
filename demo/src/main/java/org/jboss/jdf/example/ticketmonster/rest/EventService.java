@@ -1,7 +1,6 @@
 package org.jboss.jdf.example.ticketmonster.rest;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jboss.jdf.example.ticketmonster.model.Event;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -9,8 +8,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MultivaluedMap;
-
-import org.jboss.jdf.example.ticketmonster.model.Event;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -46,16 +45,16 @@ public class EventService extends BaseEntityService<Event> {
      */
     @Override
     protected Predicate[] extractPredicates(
-            MultivaluedMap<String, String> queryParameters, 
-            CriteriaBuilder criteriaBuilder, 
+            MultivaluedMap<String, String> queryParameters,
+            CriteriaBuilder criteriaBuilder,
             Root<Event> root) {
-        List<Predicate> predicates = new ArrayList<Predicate>() ;
-        
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
         if (queryParameters.containsKey("category")) {
             String category = queryParameters.getFirst("category");
             predicates.add(criteriaBuilder.equal(root.get("category").get("id"), category));
         }
-        
+
         return predicates.toArray(new Predicate[]{});
     }
 }

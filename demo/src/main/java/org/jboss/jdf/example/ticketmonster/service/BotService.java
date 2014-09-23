@@ -1,7 +1,10 @@
 package org.jboss.jdf.example.ticketmonster.service;
 
-import java.util.List;
-import java.util.logging.Logger;
+import org.jboss.jdf.example.ticketmonster.model.Booking;
+import org.jboss.jdf.example.ticketmonster.rest.BookingService;
+import org.jboss.jdf.example.ticketmonster.util.CircularBuffer;
+import org.jboss.jdf.example.ticketmonster.util.MultivaluedHashMap;
+import org.jboss.jdf.example.ticketmonster.util.qualifier.BotMessage;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Singleton;
@@ -9,17 +12,13 @@ import javax.ejb.Timer;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-
-import org.jboss.jdf.example.ticketmonster.model.Booking;
-import org.jboss.jdf.example.ticketmonster.rest.BookingService;
-import org.jboss.jdf.example.ticketmonster.util.CircularBuffer;
-import org.jboss.jdf.example.ticketmonster.util.MultivaluedHashMap;
-import org.jboss.jdf.example.ticketmonster.util.qualifier.BotMessage;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * A Bot service that acts as a Facade for the Bot, providing methods to control the Bot state as well as to obtain the current
  * state of the Bot.
- * 
+ *
  * @author Christian Sadilek <csadilek@redhat.com>
  * @author Pete Muir
  * @author Vineet Reynolds
@@ -74,8 +73,8 @@ public class BotService {
         synchronized (bot) {
             stop();
             // Delete 10 bookings at a time
-            while(true) {
-                MultivaluedHashMap<String,String> params = new MultivaluedHashMap<String, String>();
+            while (true) {
+                MultivaluedHashMap<String, String> params = new MultivaluedHashMap<String, String>();
                 params.add("maxResults", Integer.toString(10));
                 List<Booking> bookings = bookingService.getAll(params);
                 for (Booking booking : bookings) {
@@ -83,7 +82,7 @@ public class BotService {
                     event.fire("Deleted booking " + booking.getId() + " for "
                             + booking.getContactEmail() + "\n");
                 }
-                if(bookings.size() < 1) {
+                if (bookings.size() < 1) {
                     break;
                 }
             }

@@ -10,7 +10,7 @@ import javax.ejb.ApplicationException;
  * We mark it as {@link ApplicationException} because it is part of the application logic. Also,
  * we want the container to roll back automatically when it is thrown.
  * </p>
- * 
+ *
  * @author Marius Bogoevici
  */
 @SuppressWarnings("serial")

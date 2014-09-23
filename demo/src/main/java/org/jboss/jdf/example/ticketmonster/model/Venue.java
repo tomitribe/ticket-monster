@@ -1,12 +1,6 @@
 package org.jboss.jdf.example.ticketmonster.model;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.GenerationType.IDENTITY;
-
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,14 +8,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * <p>
  * Represents a single venue
  * </p>
- * 
+ *
  * @author Shane Bryzak
  * @author Pete Muir
  */
@@ -46,11 +45,11 @@ public class Venue implements Serializable {
      * <p>
      * The name of the event.
      * </p>
-     * 
+     *
      * <p>
      * The name of the event forms it's natural identity and cannot be shared between events.
      * </p>
-     * 
+     *
      * <p>
      * The name must not be null and must be one or more characters, the Bean Validation constrain <code>@NotEmpty</code>
      * enforces this.
@@ -74,7 +73,7 @@ public class Venue implements Serializable {
      * <p>
      * A set of sections in the venue
      * </p>
-     * 
+     *
      * <p>
      * The <code>@OneToMany<code> JPA mapping establishes this relationship. TODO Explain EAGER fetch. 
      * This relationship is bi-directional (a section knows which venue it is part of), and the <code>mappedBy</code>
@@ -97,7 +96,7 @@ public class Venue implements Serializable {
     private MediaItem mediaItem;
 
     /* Boilerplate getters and setters */
-    
+
     public Long getId() {
         return id;
     }
@@ -155,7 +154,7 @@ public class Venue implements Serializable {
     }
 
     /* toString(), equals() and hashCode() for Venue, using the natural identity of the object */
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

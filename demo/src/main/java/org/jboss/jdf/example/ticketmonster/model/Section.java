@@ -1,8 +1,7 @@
 package org.jboss.jdf.example.ticketmonster.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,20 +10,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.NotEmpty;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * <p>
  * A section is a specific area within a venue layout. A venue layout may consist of multiple sections.
  * </p>
- * 
+ *
  * <p>
  * The name and venue form the natural id of this entity, and therefore must be unique. JPA requires us to use the class level
  * <code>@Table</code> constraint.
  * </p>
- * 
+ *
  * @author Shane Bryzak
  * @author Pete Muir
  */
@@ -34,11 +33,11 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"name", "venue_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "venue_id"}))
 /*
  * We indicate that some properties of the class shouldn't be marshalled in JSON format
  */
-@JsonIgnoreProperties({ "venue", "sectionRows" })
+@JsonIgnoreProperties({"venue", "sectionRows"})
 public class Section implements Serializable {
 
     /* Declaration of fields */
@@ -54,7 +53,7 @@ public class Section implements Serializable {
      * <p>
      * The short name of the section, may be a code such as A12, G7, etc.
      * </p>
-     * 
+     *
      * <p>
      * The
      * <code>@NotEmpty<code> Bean Validation constraint means that the section name must be at least 1 character.
@@ -67,7 +66,7 @@ public class Section implements Serializable {
      * <p>
      * The description of the section, such as 'Rear Balcony', etc.
      * </p>
-     * 
+     *
      * <p>
      * The
      * <code>@NotEmpty<code> Bean Validation constraint means that the section description must be at least 1 character.
@@ -80,7 +79,7 @@ public class Section implements Serializable {
      * <p>
      * The venue to which this section belongs. The <code>@ManyToOne<code> JPA mapping establishes this relationship.
      * </p>
-     * 
+     *
      * <p>
      * The <code>@NotNull</code> Bean Validation constraint means that the venue must be specified.
      * </p>
@@ -100,7 +99,7 @@ public class Section implements Serializable {
     private int rowCapacity;
 
     /* Boilerplate getters and setters */
-    
+
     public Long getId() {
         return id;
     }

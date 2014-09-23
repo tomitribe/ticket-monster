@@ -1,19 +1,18 @@
 package org.jboss.jdf.example.ticketmonster.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 /**
  * <p>
  * A reusable representation of an address.
  * </p>
- * 
+ *
  * <p>
  * Addresses are used in many places in an application, so to observe the DRY principle, we model Address as an embeddable
  * entity. An embeddable entity appears as a child in the object model, but no relationship is established in the RDBMS..
  * </p>
- * 
+ *
  * @author Marius Bogoevici
  * @author Pete Muir
  */
@@ -53,7 +52,7 @@ public class Address implements Serializable {
     }
 
     /* toString(), equals() and hashCode() for Address, using the natural identity of the object */
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

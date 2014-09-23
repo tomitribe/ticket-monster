@@ -1,9 +1,9 @@
 package org.jboss.jdf.example.ticketmonster.rest;
 
+import org.jboss.jdf.example.ticketmonster.model.Venue;
+
 import javax.ejb.Stateless;
 import javax.ws.rs.Path;
-
-import org.jboss.jdf.example.ticketmonster.model.Venue;
 
 /**
  * <p>
