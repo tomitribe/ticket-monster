@@ -23,7 +23,7 @@ public class CDITerminalSessionScopeExtension implements Extension {
     }
 
     public void afterBeanDiscovery(@Observes AfterBeanDiscovery abd, BeanManager bm) {
-        abd.addContext(new TerminalSessionCDIContextImpl());
+        abd.addContext(new TerminalSessionContext());
     }
 
     public void afterDeployment(@Observes AfterDeploymentValidation adv, BeanManager bm) {
