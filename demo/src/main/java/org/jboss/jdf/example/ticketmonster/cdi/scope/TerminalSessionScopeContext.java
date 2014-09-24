@@ -20,28 +20,8 @@ public class TerminalSessionScopeContext {
         Set<ScopedInstance<?>> allInstances = new HashSet<ScopedInstance<?>>();
     }
 
-    @Inject
-    BeanManager bm;
-
-    public void create() {
-    }
-
     public void begin() {
         state = new ThreadLocalState();
-    }
-
-    public void end() {
-    }
-
-    public <T> T newInstance(Class<T> clazz) {
-        Set<Bean<?>> beans = bm.getBeans(clazz, new AnnotationLiteral<Any>() {
-        });
-        if (beans.size() > 0) {
-            Bean<?> bean = beans.iterator().next();
-            CreationalContext<?> cc = bm.createCreationalContext(bean);
-            return (T) bm.getReference(bean, clazz, cc);
-        }
-        return null;
     }
 
     public void destroy() {

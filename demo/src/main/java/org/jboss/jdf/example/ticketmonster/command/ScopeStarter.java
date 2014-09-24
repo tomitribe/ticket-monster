@@ -15,13 +15,11 @@ public class ScopeStarter {
     
     @PostConstruct
     public void postConstruct() {
-        context.create();
         context.begin();
     }
     
     @PreDestroy
     public void preDestroy() {
-        context.end();
         context.destroy();
     }
     
