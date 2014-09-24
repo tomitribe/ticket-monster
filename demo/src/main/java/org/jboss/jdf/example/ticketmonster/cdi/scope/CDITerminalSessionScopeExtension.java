@@ -19,7 +19,6 @@ public class CDITerminalSessionScopeExtension implements Extension {
     // autodiscovery
 
     public void beforeBeanDiscovery(@Observes BeforeBeanDiscovery bbd, BeanManager bm) {
-        bbd.addAnnotatedType(bm.createAnnotatedType(TerminalSessionScopeContext.class));
         bbd.addScope(TerminalSessionScoped.class, false, false);
     }
 
