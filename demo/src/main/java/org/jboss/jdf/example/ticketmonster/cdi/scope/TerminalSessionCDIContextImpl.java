@@ -5,35 +5,38 @@ import javax.enterprise.context.spi.Contextual;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.logging.Logger;
 
 public class TerminalSessionCDIContextImpl implements Context {
 
-    public static final ThreadLocalState state = new ThreadLocalState();
+    private static final Logger LOGGER = Logger.getLogger(TerminalSessionCDIContextImpl.class.getName());
+
+    public static final ThreadLocal<TerminalState> state = new ThreadLocal<TerminalState>() {
+        @Override
+        protected TerminalState initialValue() {
+            return new TerminalState();
+        }
+    };
 
     public Class<? extends Annotation> getScope() {
         return TerminalSessionScoped.class;
     }
 
     public <T> T get(Contextual<T> contextual, CreationalContext<T> creationalContext) {
-        Bean<T> bean = (Bean<T>) contextual;
+        final Bean<T> bean = (Bean<T>) contextual;
 
-        Iterator<ScopedInstance<?>> iterator = state.allInstances.iterator();
-        while (iterator.hasNext()) {
-            ScopedInstance<?> scopedInstance = (ScopedInstance<?>) iterator.next();
-            if (bean.getBeanClass().equals(scopedInstance.bean.getBeanClass())) {
-                return (T) scopedInstance.instance;
-            }
-        }
+        final TerminalState terminalState = state.get();
 
-        ScopedInstance<T> si = new ScopedInstance<T>();
-        si.bean = bean;
-        si.ctx = creationalContext;
-        si.instance = bean.create(creationalContext);
-        state.allInstances.add(si);
-        return (T) si.instance;
+        if (terminalState == null) return null;
+
+        return terminalState.getInstance(creationalContext, bean);
     }
 
     public <T> T get(Contextual<T> contextual) {
@@ -41,26 +44,61 @@ public class TerminalSessionCDIContextImpl implements Context {
     }
 
     public boolean isActive() {
-        return state != null ? true : false;
+        // This will never be null due to ThreadLocal.initialvalue() overriding
+        return state.get() != null;
     }
 
-    public static class ThreadLocalState {
+    public static class TerminalState {
+
         //These should be converted to thread safe collections
-        Set<ScopedInstance<?>> allInstances = new HashSet<ScopedInstance<?>>();
+        final Map<Class<?>, ScopedInstance<?>> map = new ConcurrentHashMap<Class<?>, ScopedInstance<?>>();
+
+        private <T> T getInstance(final CreationalContext<T> creationalContext, final Bean<T> bean) {
+
+            final Class<?> beanClass = bean.getBeanClass();
+
+            final ScopedInstance<?> scopedInstance = map.computeIfAbsent(beanClass, new Function<Class<?>, ScopedInstance<?>>() {
+                @Override
+                public ScopedInstance<?> apply(final Class<?> ignored) {
+                    return new ScopedInstance<T>(bean, creationalContext, bean.create(creationalContext));
+                }
+            });
+
+            return (T) scopedInstance.getInstance();
+        }
 
         public void destroy() {
             //Since this is not a CDI NormalScope we are responsible for managing the entire lifecycle, including
             //destroying the beans
-            for (ScopedInstance entry2 : state.allInstances) {
-                entry2.bean.destroy(entry2.instance, entry2.ctx);
+            for (ScopedInstance scopedInstance : map.values()) {
+                scopedInstance.getBean().destroy(scopedInstance.getInstance(), scopedInstance.getCreationalContext());
             }
-        }
 
+            map.clear();
+        }
     }
 
     public static class ScopedInstance<T> {
-        Bean<T> bean;
-        CreationalContext<T> ctx;
-        T instance;
+        private final Bean<T> bean;
+        private final CreationalContext<T> creationalContext;
+        private final T instance;
+
+        public ScopedInstance(final Bean<T> bean, final CreationalContext<T> creationalContext, final T instance) {
+            this.bean = bean;
+            this.creationalContext = creationalContext;
+            this.instance = instance;
+        }
+
+        public Bean<T> getBean() {
+            return bean;
+        }
+
+        public CreationalContext<T> getCreationalContext() {
+            return creationalContext;
+        }
+
+        public T getInstance() {
+            return instance;
+        }
     }
 }
