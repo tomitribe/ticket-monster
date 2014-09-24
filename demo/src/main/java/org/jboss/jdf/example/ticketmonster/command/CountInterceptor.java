@@ -14,10 +14,8 @@ import java.util.logging.Logger;
 @Interceptor
 public class CountInterceptor {
 
-    @RequestScoped
     @Inject
     private CommandCounter counter;
-
 
     @PostConstruct
     public void construct(InvocationContext invocationContext) throws Exception {
