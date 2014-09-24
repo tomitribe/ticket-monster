@@ -6,8 +6,8 @@ import org.jboss.jdf.example.ticketmonster.cdi.scope.TerminalSessionScoped;
 
 import javax.enterprise.context.RequestScoped;
 
-@TerminalSessionScoped
-//@RequestScoped
+//@TerminalSessionScoped
+@RequestScoped
 public class CommandCounter {
 
     private AtomicLong invocationCount = new AtomicLong(0);
