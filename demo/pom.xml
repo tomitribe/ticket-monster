@@ -566,12 +566,6 @@
               <debug>false</debug>
       	      <debugPort>5005</debugPort>
       	      <args>-Dopenejb.validation.output.level=VERBOSE</args>
-      	      <libs>
-                <lib>org.codehaus.jackson:jackson-core-asl:1.9.13</lib>
-                <lib>org.codehaus.jackson:jackson-jaxrs:1.9.13</lib>
-                <lib>org.codehaus.jackson:jackson-mapper-asl:1.9.13</lib>
-                <lib>org.codehaus.jackson:jackson-xc:1.9.13</lib>
-              </libs>
             </configuration>
           </plugin>
         </plugins>
