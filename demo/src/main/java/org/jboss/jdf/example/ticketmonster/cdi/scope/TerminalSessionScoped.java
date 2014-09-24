@@ -1,13 +1,13 @@
 package org.jboss.jdf.example.ticketmonster.cdi.scope;
 
-import javax.inject.Scope;
+import javax.enterprise.context.NormalScope;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Scope
+@NormalScope
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 public @interface TerminalSessionScoped {
 }
