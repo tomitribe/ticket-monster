@@ -23,11 +23,36 @@
    <defaultProtocol type="Servlet 3.0" />
 
    <!-- Example configuration for a remote JBoss EAP instance -->
-   <container qualifier="jboss" default="true">
+   <container qualifier="jboss">
       <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
       <configuration>
          <property name="jbossHome">/path/to/jboss/as</property>
       </configuration>
    </container>
+   
+   <container qualifier="tomee" default="true">
+    <configuration>
+        <property name="httpPort">-1</property>
+        <property name="stopPort">-1</property>
+        <property name="classifier">plus</property>
+        <property name="debug">false</property>
+        <property name="additionalLibs">
+          mvn:antlr:antlr:2.7.7
+          mvn:dom4j:dom4j:1.6.1
+          mvn:net.sf.ehcache:ehcache-core:2.6.7
+          mvn:org.javassist:javassist:3.18.1-GA
+          mvn:org.jboss.logging:jboss-logging:3.1.0.GA
+          mvn:org.hibernate:hibernate-core:4.2.12.Final
+          mvn:org.hibernate:hibernate-entitymanager:4.2.12.Final
+          mvn:org.hibernate:hibernate-validator:4.3.1.Final
+          mvn:org.hibernate:hibernate-ehcache:4.2.12.Final
+          mvn:org.hibernate.common:hibernate-commons-annotations:4.0.2.Final
+          mvn:org.codehaus.jackson:jackson-core-asl:1.9.13
+          mvn:org.codehaus.jackson:jackson-jaxrs:1.9.13
+          mvn:org.codehaus.jackson:jackson-mapper-asl:1.9.13
+          mvn:org.codehaus.jackson:jackson-xc:1.9.13
+        </property>
+    </configuration>
+</container>
 
 </arquillian>

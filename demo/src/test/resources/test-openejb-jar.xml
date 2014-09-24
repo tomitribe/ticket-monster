@@ -1,0 +1,7 @@
+<openejb-jar xmlns="http://www.openejb.org/openejb-jar/1.1">
+  <pojo-deployment class-name="org.jboss.jdf.example.ticketmonster.rest.JaxRsActivator">
+    <properties>
+      cxf.jaxrs.providers = org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider
+    </properties>
+  </pojo-deployment>
+</openejb-jar>

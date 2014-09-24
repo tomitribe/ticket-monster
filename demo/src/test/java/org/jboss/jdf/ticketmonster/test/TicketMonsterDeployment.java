@@ -14,6 +14,7 @@ public class TicketMonsterDeployment {
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource("import.sql")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsResource("test-openejb-jar.xml", "WEB-INF/openejb-jar.xml")
                 // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml");
     }
