@@ -18,12 +18,12 @@ public class CDITerminalSessionScopeExtension implements Extension {
     // We will bootstrap all CDI beans rather than using beans.xml for
     // autodiscovery
 
-    public void beforeBeanDiscovery(@Observes BeforeBeanDiscovery bbd, BeanManager bm) {
-        bbd.addScope(TerminalSessionScoped.class, false, false);
+    public void beforeBeanDiscovery(@Observes BeforeBeanDiscovery bbd) {
+        bbd.addScope(TerminalSessionScoped.class, true, false);
     }
 
     public void afterBeanDiscovery(@Observes AfterBeanDiscovery abd, BeanManager bm) {
-        abd.addContext(new TerminalSessionContext());
+        abd.addContext(new TerminalSessionContext(bm));
     }
 
     public void afterDeployment(@Observes AfterDeploymentValidation adv, BeanManager bm) {

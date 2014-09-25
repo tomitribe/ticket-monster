@@ -4,6 +4,8 @@ import javax.enterprise.context.spi.Context;
 import javax.enterprise.context.spi.Contextual;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.naming.InitialContext;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +23,12 @@ public class TerminalSessionContext implements Context {
         }
     };
 
+    private final BeanManager beanManager;
+
+    public TerminalSessionContext(final BeanManager beanManager) {
+        this.beanManager = beanManager;
+    }
+
     public Class<? extends Annotation> getScope() {
         return TerminalSessionScoped.class;
     }
@@ -36,7 +44,13 @@ public class TerminalSessionContext implements Context {
     }
 
     public <T> T get(Contextual<T> contextual) {
-        throw new IllegalArgumentException();
+        final Bean<T> bean = (Bean<T>) contextual;
+
+        final TerminalState terminalState = state.get();
+
+        if (terminalState == null) return null;
+
+        return terminalState.getInstance(null, bean);
     }
 
     public boolean isActive() {
