@@ -1,9 +1,6 @@
 package org.jboss.jdf.example.ticketmonster.command;
 
-import org.jboss.jdf.example.ticketmonster.cdi.scope.TerminalSessionScoped;
-
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
