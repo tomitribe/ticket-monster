@@ -205,7 +205,12 @@
       <artifactId>resteasy-jaxrs</artifactId>
       <scope>provided</scope>
     </dependency>
-
+    <!--<dependency>-->
+      <!--<groupId>org.apache.cxf</groupId>-->
+      <!--<artifactId>cxf-rt-frontend-jaxrs</artifactId>-->
+      <!--<version>2.6.14</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
     <!-- Tomitribe CREST dependencies -->
     <dependency>
       <groupId>org.tomitribe</groupId>
@@ -620,7 +625,11 @@
           <artifactId>arquillian-tomee-embedded</artifactId>
           <version>${tomee.version}</version>
         </dependency>
-        
+        <dependency>
+          <groupId>org.apache.openejb</groupId>
+          <artifactId>tomee-jaxrs</artifactId>
+          <version>${tomee.version}</version>
+        </dependency>
         <!-- Dependencies for Jackson CXF provider -->
         <dependency>
           <groupId>org.codehaus.jackson</groupId>
