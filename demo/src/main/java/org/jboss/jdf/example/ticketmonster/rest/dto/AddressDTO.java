@@ -3,6 +3,7 @@ package org.jboss.jdf.example.ticketmonster.rest.dto;
 import org.jboss.jdf.example.ticketmonster.model.Address;
 
 import javax.persistence.EntityManager;
+
 import java.io.Serializable;
 
 public class AddressDTO implements Serializable {
@@ -54,5 +55,10 @@ public class AddressDTO implements Serializable {
 
     public void setCountry(final String country) {
         this.country = country;
+    }
+    
+    @Override
+    public String toString() {
+        return street + ", " + city + ", " + country;
     }
 }
