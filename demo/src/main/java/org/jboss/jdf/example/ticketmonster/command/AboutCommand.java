@@ -6,7 +6,7 @@ import org.tomitribe.crest.connector.api.CrestListener;
 import javax.ejb.MessageDriven;
 import javax.interceptor.Interceptors;
 
-@Interceptors({ CountInterceptor.class })
+@Interceptors({CountInterceptor.class})
 @MessageDriven(name = "About")
 public class AboutCommand implements CrestListener {
 

@@ -46,14 +46,14 @@ public class RuntimeBean implements CrestListener {
     }
 
     @Command
-    public String maxMemory(@Option({"unit","u"}) @Default("MEGABYTES") SizeUnit unit) {
+    public String maxMemory(@Option({"unit", "u"}) @Default("MEGABYTES") SizeUnit unit) {
         final long bytes = Runtime.getRuntime().maxMemory();
         final Size size = new Size(unit.convert(bytes, SizeUnit.BYTES), unit);
         return size.toString();
     }
 
     @Command
-    public String totalMemory(@Option({"unit","u"}) @Default("MEGABYTES") SizeUnit unit) {
+    public String totalMemory(@Option({"unit", "u"}) @Default("MEGABYTES") SizeUnit unit) {
         final long bytes = Runtime.getRuntime().totalMemory();
         final Size size = new Size(unit.convert(bytes, SizeUnit.BYTES), unit);
         return size.toString();

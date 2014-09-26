@@ -7,13 +7,13 @@ import javax.ejb.MessageDriven;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
-@Interceptors({ CountInterceptor.class })
+@Interceptors({CountInterceptor.class})
 @MessageDriven(name = "Count")
 public class InvocationCountCommand implements CrestListener {
 
     @Inject
     private CommandCounter counter;
-    
+
     @Command
     public String invocations() {
         return Long.toString(counter.getCount());
