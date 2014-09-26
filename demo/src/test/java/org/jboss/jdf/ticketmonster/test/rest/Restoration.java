@@ -50,7 +50,10 @@ public enum Restoration {
             if (CONFIG.shouldRecord()) {
 
                 final File file = new File(CONFIG.record, assertion.content().replaceFirst("^/", ""));
-                assertTrue(file.getParentFile().mkdirs());
+                final File parent = file.getParentFile();
+
+                if (!parent.exists()) assertTrue(parent.mkdirs());
+
                 IO.copy(IO.read(actual), IO.write(file));
 
             } else {
