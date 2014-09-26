@@ -101,17 +101,17 @@ public abstract class BaseEntityService<T> {
     public List<T> getAll(MultivaluedMap<String, String> queryParameters) {
         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-        Root<T> root = criteriaQuery.from(entityClass);
-        Predicate[] predicates = extractPredicates(queryParameters, criteriaBuilder, root);
+        final Root<T> root = criteriaQuery.from(entityClass);
+        final Predicate[] predicates = extractPredicates(queryParameters, criteriaBuilder, root);
         criteriaQuery.select(criteriaQuery.getSelection()).where(predicates);
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("id")));
-        TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
+        final TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
         if (queryParameters.containsKey("first")) {
-            Integer firstRecord = Integer.parseInt(queryParameters.getFirst("first")) - 1;
+            final Integer firstRecord = Integer.parseInt(queryParameters.getFirst("first")) - 1;
             query.setFirstResult(firstRecord);
         }
         if (queryParameters.containsKey("maxResults")) {
-            Integer maxResults = Integer.parseInt(queryParameters.getFirst("maxResults"));
+            final Integer maxResults = Integer.parseInt(queryParameters.getFirst("maxResults"));
             query.setMaxResults(maxResults);
         }
         return query.getResultList();
@@ -129,13 +129,13 @@ public abstract class BaseEntityService<T> {
     @Path("/count")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Long> getCount(@Context UriInfo uriInfo) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-        Root<T> root = criteriaQuery.from(entityClass);
+        final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        final Root<T> root = criteriaQuery.from(entityClass);
         criteriaQuery.select(criteriaBuilder.count(root));
-        Predicate[] predicates = extractPredicates(uriInfo.getQueryParameters(), criteriaBuilder, root);
+        final Predicate[] predicates = extractPredicates(uriInfo.getQueryParameters(), criteriaBuilder, root);
         criteriaQuery.where(predicates);
-        Map<String, Long> result = new HashMap<String, Long>();
+        final Map<String, Long> result = new HashMap<String, Long>();
         result.put("count", entityManager.createQuery(criteriaQuery).getSingleResult());
         return result;
     }
@@ -167,8 +167,8 @@ public abstract class BaseEntityService<T> {
     public T getSingleInstance(@PathParam("id") Long id) {
         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-        Root<T> root = criteriaQuery.from(entityClass);
-        Predicate condition = criteriaBuilder.equal(root.get("id"), id);
+        final Root<T> root = criteriaQuery.from(entityClass);
+        final Predicate condition = criteriaBuilder.equal(root.get("id"), id);
         criteriaQuery.select(criteriaBuilder.createQuery(entityClass).getSelection()).where(condition);
         return entityManager.createQuery(criteriaQuery).getSingleResult();
     }

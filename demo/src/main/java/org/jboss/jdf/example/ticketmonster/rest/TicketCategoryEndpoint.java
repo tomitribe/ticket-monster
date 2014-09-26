@@ -35,7 +35,7 @@ public class TicketCategoryEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(TicketCategoryDTO dto) {
-        TicketCategory entity = dto.fromDTO(null, em);
+        final TicketCategory entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(TicketCategoryEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -43,7 +43,7 @@ public class TicketCategoryEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        TicketCategory entity = em.find(TicketCategory.class, id);
+        final TicketCategory entity = em.find(TicketCategory.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -55,7 +55,7 @@ public class TicketCategoryEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<TicketCategory> findByIdQuery = em.createQuery("SELECT DISTINCT t FROM TicketCategory t WHERE t.id = :entityId ORDER BY t.id", TicketCategory.class);
+        final TypedQuery<TicketCategory> findByIdQuery = em.createQuery("SELECT DISTINCT t FROM TicketCategory t WHERE t.id = :entityId ORDER BY t.id", TicketCategory.class);
         findByIdQuery.setParameter("entityId", id);
         TicketCategory entity;
         try {
@@ -66,14 +66,14 @@ public class TicketCategoryEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        TicketCategoryDTO dto = new TicketCategoryDTO(entity);
+        final TicketCategoryDTO dto = new TicketCategoryDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<TicketCategoryDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<TicketCategory> findAllQuery = em.createQuery("SELECT DISTINCT t FROM TicketCategory t ORDER BY t.id", TicketCategory.class);
+        final TypedQuery<TicketCategory> findAllQuery = em.createQuery("SELECT DISTINCT t FROM TicketCategory t ORDER BY t.id", TicketCategory.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -83,7 +83,7 @@ public class TicketCategoryEndpoint {
         final List<TicketCategory> searchResults = findAllQuery.getResultList();
         final List<TicketCategoryDTO> results = new ArrayList<TicketCategoryDTO>();
         for (TicketCategory searchResult : searchResults) {
-            TicketCategoryDTO dto = new TicketCategoryDTO(searchResult);
+            final TicketCategoryDTO dto = new TicketCategoryDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -93,7 +93,7 @@ public class TicketCategoryEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, TicketCategoryDTO dto) {
-        TypedQuery<TicketCategory> findByIdQuery = em.createQuery("SELECT DISTINCT t FROM TicketCategory t WHERE t.id = :entityId ORDER BY t.id", TicketCategory.class);
+        final TypedQuery<TicketCategory> findByIdQuery = em.createQuery("SELECT DISTINCT t FROM TicketCategory t WHERE t.id = :entityId ORDER BY t.id", TicketCategory.class);
         findByIdQuery.setParameter("entityId", id);
         TicketCategory entity;
         try {

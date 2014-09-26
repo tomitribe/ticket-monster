@@ -81,7 +81,7 @@ public class TicketCategory implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        TicketCategory that = (TicketCategory) o;
+        final TicketCategory that = (TicketCategory) o;
 
         if (description != null ? !description.equals(that.description) : that.description != null)
             return false;

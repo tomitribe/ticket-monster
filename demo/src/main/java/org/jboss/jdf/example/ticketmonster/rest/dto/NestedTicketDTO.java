@@ -28,7 +28,7 @@ public class NestedTicketDTO implements Serializable {
             entity = new Ticket();
         }
         if (this.id != null) {
-            TypedQuery<Ticket> findByIdQuery = em.createQuery(
+            final TypedQuery<Ticket> findByIdQuery = em.createQuery(
                     "SELECT DISTINCT t FROM Ticket t WHERE t.id = :entityId",
                     Ticket.class);
             findByIdQuery.setParameter("entityId", this.id);

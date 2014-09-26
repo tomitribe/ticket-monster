@@ -28,7 +28,7 @@ public class NestedEventDTO implements Serializable {
             entity = new Event();
         }
         if (this.id != null) {
-            TypedQuery<Event> findByIdQuery = em.createQuery(
+            final TypedQuery<Event> findByIdQuery = em.createQuery(
                     "SELECT DISTINCT e FROM Event e WHERE e.id = :entityId",
                     Event.class);
             findByIdQuery.setParameter("entityId", this.id);

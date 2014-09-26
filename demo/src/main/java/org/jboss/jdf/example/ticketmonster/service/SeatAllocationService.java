@@ -25,13 +25,13 @@ public class SeatAllocationService {
     EntityManager entityManager;
 
     public AllocatedSeats allocateSeats(Section section, Performance performance, int seatCount, boolean contiguous) {
-        SectionAllocation sectionAllocation = retrieveSectionAllocationExclusively(section, performance);
-        List<Seat> seats = sectionAllocation.allocateSeats(seatCount, contiguous);
+        final SectionAllocation sectionAllocation = retrieveSectionAllocationExclusively(section, performance);
+        final List<Seat> seats = sectionAllocation.allocateSeats(seatCount, contiguous);
         return new AllocatedSeats(sectionAllocation, seats);
     }
 
     public void deallocateSeats(Section section, Performance performance, List<Seat> seats) {
-        SectionAllocation sectionAllocation = retrieveSectionAllocationExclusively(section, performance);
+        final SectionAllocation sectionAllocation = retrieveSectionAllocationExclusively(section, performance);
         for (Seat seat : seats) {
             if (!seat.getSection().equals(section)) {
                 throw new SeatAllocationException("All seats must be in the same section!");
@@ -41,7 +41,7 @@ public class SeatAllocationService {
     }
 
     private SectionAllocation retrieveSectionAllocationExclusively(Section section, Performance performance) {
-        SectionAllocation sectionAllocationStatus = (SectionAllocation) entityManager.createQuery(
+        final SectionAllocation sectionAllocationStatus = (SectionAllocation) entityManager.createQuery(
                 "select s from SectionAllocation s where " +
                         "s.performance.id = :performanceId and " +
                         "s.section.id = :sectionId")

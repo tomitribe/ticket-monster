@@ -29,7 +29,7 @@ public class NestedPerformanceDTO implements Serializable {
             entity = new Performance();
         }
         if (this.id != null) {
-            TypedQuery<Performance> findByIdQuery = em
+            final TypedQuery<Performance> findByIdQuery = em
                     .createQuery(
                             "SELECT DISTINCT p FROM Performance p WHERE p.id = :entityId",
                             Performance.class);

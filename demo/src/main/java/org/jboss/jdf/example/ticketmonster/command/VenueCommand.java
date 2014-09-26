@@ -46,7 +46,7 @@ public class VenueCommand implements CrestListener {
             public void write(OutputStream os) throws IOException {
                 final PrintWriter pw = new PrintWriter(os);
 
-                List<DisplayField> fieldNames = Arrays.asList(new DisplayField[]{
+                final List<DisplayField> fieldNames = Arrays.asList(new DisplayField[]{
                         new DisplayField("id", "ID"),
                         new DisplayField("name", "Venue Name"),
                         new DisplayField("capacity", "Capacity"),

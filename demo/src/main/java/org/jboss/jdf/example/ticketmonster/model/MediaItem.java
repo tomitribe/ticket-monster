@@ -120,7 +120,7 @@ public class MediaItem implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        MediaItem other = (MediaItem) obj;
+        final MediaItem other = (MediaItem) obj;
         if (url == null) {
             if (other.url != null)
                 return false;

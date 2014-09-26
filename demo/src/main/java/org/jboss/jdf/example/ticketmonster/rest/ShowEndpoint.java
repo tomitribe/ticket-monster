@@ -35,7 +35,7 @@ public class ShowEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(ShowDTO dto) {
-        Show entity = dto.fromDTO(null, em);
+        final Show entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(ShowEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -43,7 +43,7 @@ public class ShowEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        Show entity = em.find(Show.class, id);
+        final Show entity = em.find(Show.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -55,7 +55,7 @@ public class ShowEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<Show> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Show s LEFT JOIN FETCH s.event LEFT JOIN FETCH s.venue LEFT JOIN FETCH s.performances LEFT JOIN FETCH s.ticketPrices WHERE s.id = :entityId ORDER BY s.id", Show.class);
+        final TypedQuery<Show> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Show s LEFT JOIN FETCH s.event LEFT JOIN FETCH s.venue LEFT JOIN FETCH s.performances LEFT JOIN FETCH s.ticketPrices WHERE s.id = :entityId ORDER BY s.id", Show.class);
         findByIdQuery.setParameter("entityId", id);
         Show entity;
         try {
@@ -66,14 +66,14 @@ public class ShowEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        ShowDTO dto = new ShowDTO(entity);
+        final ShowDTO dto = new ShowDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<ShowDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<Show> findAllQuery = em.createQuery("SELECT DISTINCT s FROM Show s LEFT JOIN FETCH s.event LEFT JOIN FETCH s.venue LEFT JOIN FETCH s.performances LEFT JOIN FETCH s.ticketPrices ORDER BY s.id", Show.class);
+        final TypedQuery<Show> findAllQuery = em.createQuery("SELECT DISTINCT s FROM Show s LEFT JOIN FETCH s.event LEFT JOIN FETCH s.venue LEFT JOIN FETCH s.performances LEFT JOIN FETCH s.ticketPrices ORDER BY s.id", Show.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -83,7 +83,7 @@ public class ShowEndpoint {
         final List<Show> searchResults = findAllQuery.getResultList();
         final List<ShowDTO> results = new ArrayList<ShowDTO>();
         for (Show searchResult : searchResults) {
-            ShowDTO dto = new ShowDTO(searchResult);
+            final ShowDTO dto = new ShowDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -93,7 +93,7 @@ public class ShowEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, ShowDTO dto) {
-        TypedQuery<Show> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Show s LEFT JOIN FETCH s.event LEFT JOIN FETCH s.venue LEFT JOIN FETCH s.performances LEFT JOIN FETCH s.ticketPrices WHERE s.id = :entityId ORDER BY s.id", Show.class);
+        final TypedQuery<Show> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Show s LEFT JOIN FETCH s.event LEFT JOIN FETCH s.venue LEFT JOIN FETCH s.performances LEFT JOIN FETCH s.ticketPrices WHERE s.id = :entityId ORDER BY s.id", Show.class);
         findByIdQuery.setParameter("entityId", id);
         Show entity;
         try {

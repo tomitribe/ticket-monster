@@ -26,7 +26,7 @@ public class NestedShowDTO implements Serializable {
             entity = new Show();
         }
         if (this.id != null) {
-            TypedQuery<Show> findByIdQuery = em.createQuery(
+            final TypedQuery<Show> findByIdQuery = em.createQuery(
                     "SELECT DISTINCT s FROM Show s WHERE s.id = :entityId",
                     Show.class);
             findByIdQuery.setParameter("entityId", this.id);

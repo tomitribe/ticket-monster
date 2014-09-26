@@ -62,10 +62,10 @@ public class AlignedTablePrinter {
         for (Object object : rows) {
             for (int i = 0; i < fieldNames.size(); i++) {
 
-                String fieldName = fieldNames.get(i).getName();
-                String fieldValue = getFieldValue(fieldName, object);
+                final String fieldName = fieldNames.get(i).getName();
+                final String fieldValue = getFieldValue(fieldName, object);
 
-                String s = formatValue(fieldValue);
+                final String s = formatValue(fieldValue);
                 maxWidth[i] = max(maxWidth[i], maxLineLength(s));
             }
         }
@@ -77,7 +77,7 @@ public class AlignedTablePrinter {
                 if (i > 0) {
                     writer.append('|');
                 }
-                String name = fieldNames.get(i).getDescription();
+                final String name = fieldNames.get(i).getDescription();
                 writer.append(center(name, maxWidth[i], 1));
             }
             writer.append('\n');
@@ -92,15 +92,15 @@ public class AlignedTablePrinter {
         }
 
         for (Object object : rows) {
-            List<List<String>> columnLines = new ArrayList<List<String>>(columns);
+            final List<List<String>> columnLines = new ArrayList<List<String>>(columns);
             int maxLines = 1;
             for (int i = 0; i < columns; i++) {
 
-                String fieldName = fieldNames.get(i).getName();
-                String fieldValue = getFieldValue(fieldName, object);
+                final String fieldName = fieldNames.get(i).getName();
+                final String fieldValue = getFieldValue(fieldName, object);
 
-                String s = formatValue(fieldValue);
-                ImmutableList<String> lines = ImmutableList.copyOf(LINE_SPLITTER.split(s));
+                final String s = formatValue(fieldValue);
+                final ImmutableList<String> lines = ImmutableList.copyOf(LINE_SPLITTER.split(s));
                 columnLines.add(lines);
                 maxLines = max(maxLines, lines.size());
             }
@@ -110,11 +110,11 @@ public class AlignedTablePrinter {
                     if (column > 0) {
                         writer.append('|');
                     }
-                    List<String> lines = columnLines.get(column);
-                    String s = (line < lines.size()) ? lines.get(line) : "";
+                    final List<String> lines = columnLines.get(column);
+                    final String s = (line < lines.size()) ? lines.get(line) : "";
 
-                    String fieldName = fieldNames.get(column).getName();
-                    String fieldValue = getFieldValue(fieldName, object);
+                    final String fieldName = fieldNames.get(column).getName();
+                    final String fieldValue = getFieldValue(fieldName, object);
 
                     boolean numeric = false;
                     try {
@@ -141,7 +141,7 @@ public class AlignedTablePrinter {
     }
 
     private static String center(String s, int maxWidth, int padding) {
-        AnsiString ansiString = new AnsiString(s);
+        final AnsiString ansiString = new AnsiString(s);
 
         checkState(ansiString.length() <= maxWidth, "string length is greater than max width");
         int left = (maxWidth - ansiString.length()) / 2;
@@ -150,10 +150,10 @@ public class AlignedTablePrinter {
     }
 
     private static String align(String s, int maxWidth, int padding, boolean right) {
-        AnsiString ansiString = new AnsiString(s);
+        final AnsiString ansiString = new AnsiString(s);
         checkState(ansiString.length() <= maxWidth, "string length is greater than max width");
-        String large = repeat(" ", (maxWidth - ansiString.length()) + padding);
-        String small = repeat(" ", padding);
+        final String large = repeat(" ", (maxWidth - ansiString.length()) + padding);
+        final String small = repeat(" ", padding);
         return right ? (large + s + small) : (small + s + large);
     }
 
@@ -166,17 +166,15 @@ public class AlignedTablePrinter {
     }
 
     private String getFieldValue(String fieldName, Object object) {
-        String result = "";
         try {
-            Class<? extends Object> cls = object.getClass();
-            Field declaredField = cls.getDeclaredField(fieldName);
+            final Class<? extends Object> cls = object.getClass();
+            final Field declaredField = cls.getDeclaredField(fieldName);
             declaredField.setAccessible(true);
-            String value = declaredField.get(object).toString();
 
-            result = value;
+            return declaredField.get(object).toString();
         } catch (Exception e) {
         }
 
-        return result;
+        return "";
     }
 }

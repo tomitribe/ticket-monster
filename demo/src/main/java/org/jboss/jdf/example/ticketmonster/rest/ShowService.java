@@ -33,20 +33,19 @@ public class ShowService extends BaseEntityService<Show> {
     }
 
     @Override
-    protected Predicate[] extractPredicates(MultivaluedMap<String,
-            String> queryParameters,
-                                            CriteriaBuilder criteriaBuilder,
-                                            Root<Show> root) {
+    protected Predicate[] extractPredicates(final MultivaluedMap<String, String> queryParameters,
+                                            final CriteriaBuilder criteriaBuilder,
+                                            final Root<Show> root) {
 
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        final List<Predicate> predicates = new ArrayList<Predicate>();
 
         if (queryParameters.containsKey("venue")) {
-            String venue = queryParameters.getFirst("venue");
+            final String venue = queryParameters.getFirst("venue");
             predicates.add(criteriaBuilder.equal(root.get("venue").get("id"), venue));
         }
 
         if (queryParameters.containsKey("event")) {
-            String event = queryParameters.getFirst("event");
+            final String event = queryParameters.getFirst("event");
             predicates.add(criteriaBuilder.equal(root.get("event").get("id"), event));
         }
         return predicates.toArray(new Predicate[]{});
@@ -56,7 +55,7 @@ public class ShowService extends BaseEntityService<Show> {
     @Path("/performance/{performanceId:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Show getShowByPerformance(@PathParam("performanceId") Long performanceId) {
-        Query query = getEntityManager().createQuery("select s from Show s where exists(select p from Performance p where p.show = s and p.id = :performanceId)");
+        final Query query = getEntityManager().createQuery("select s from Show s where exists(select p from Performance p where p.show = s and p.id = :performanceId)");
         query.setParameter("performanceId", performanceId);
         return (Show) query.getSingleResult();
     }

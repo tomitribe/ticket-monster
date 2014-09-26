@@ -34,10 +34,10 @@ class ShowMetric {
     }
 
     private List<PerformanceMetric> convertFrom(Set<Performance> performances,
-                                                Map<Long, Long> occupiedCounts) {
-        List<PerformanceMetric> result = new ArrayList<PerformanceMetric>();
+                                                final Map<Long, Long> occupiedCounts) {
+        final List<PerformanceMetric> result = new ArrayList<PerformanceMetric>();
         for (Performance performance : performances) {
-            Long occupiedCount = occupiedCounts.get(performance.getId());
+            final Long occupiedCount = occupiedCounts.get(performance.getId());
             result.add(new PerformanceMetric(performance, occupiedCount));
         }
         return result;

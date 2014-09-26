@@ -55,8 +55,8 @@ public class MetricsService {
     }
 
     private List<ShowMetric> retrieveMetricsFromShows(List<Show> shows,
-                                                      Map<Long, Long> occupiedCounts) {
-        List<ShowMetric> metrics = new ArrayList<ShowMetric>();
+                                                      final Map<Long, Long> occupiedCounts) {
+        final List<ShowMetric> metrics = new ArrayList<ShowMetric>();
         for (Show show : shows) {
             metrics.add(new ShowMetric(show, occupiedCounts));
         }
@@ -64,19 +64,19 @@ public class MetricsService {
     }
 
     private List<Show> retrieveShows() {
-        TypedQuery<Show> showQuery = entityManager
+        final TypedQuery<Show> showQuery = entityManager
                 .createQuery("select DISTINCT s from Show s JOIN s.performances p WHERE p.date > current_timestamp", Show.class);
         return showQuery.getResultList();
     }
 
     private Map<Long, Long> retrieveOccupiedCounts() {
-        Map<Long, Long> occupiedCounts = new HashMap<Long, Long>();
+        final Map<Long, Long> occupiedCounts = new HashMap<Long, Long>();
 
-        Query occupiedCountsQuery = entityManager
+        final Query occupiedCountsQuery = entityManager
                 .createQuery("select b.performance.id, SIZE(b.tickets) from Booking b "
                         + "WHERE b.performance.date > current_timestamp GROUP BY b.performance.id");
 
-        List<Object[]> results = occupiedCountsQuery.getResultList();
+        final List<Object[]> results = occupiedCountsQuery.getResultList();
         for (Object[] result : results) {
             occupiedCounts.put((Long) result[0],
                     ((Integer) result[1]).longValue());

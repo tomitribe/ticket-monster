@@ -34,7 +34,7 @@ public class NestedSectionDTO implements Serializable {
             entity = new Section();
         }
         if (this.id != null) {
-            TypedQuery<Section> findByIdQuery = em.createQuery(
+            final TypedQuery<Section> findByIdQuery = em.createQuery(
                     "SELECT DISTINCT s FROM Section s WHERE s.id = :entityId",
                     Section.class);
             findByIdQuery.setParameter("entityId", this.id);

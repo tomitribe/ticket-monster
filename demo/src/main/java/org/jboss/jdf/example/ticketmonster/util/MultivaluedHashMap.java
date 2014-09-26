@@ -23,7 +23,7 @@ public class MultivaluedHashMap<K, V> extends ForwardingMap<K, List<V>> implemen
 
     @Override
     public void putSingle(K key, V value) {
-        List<V> l = new ArrayList<V>(1);
+        final List<V> l = new ArrayList<V>(1);
         l.add(value);
         put(key, l);
     }
@@ -40,7 +40,7 @@ public class MultivaluedHashMap<K, V> extends ForwardingMap<K, List<V>> implemen
 
     @Override
     public V getFirst(K key) {
-        List<V> l = get(key);
+        final List<V> l = get(key);
         return l == null ? null : l.get(0);
     }
 

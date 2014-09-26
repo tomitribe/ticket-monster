@@ -35,7 +35,7 @@ public class SectionEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(SectionDTO dto) {
-        Section entity = dto.fromDTO(null, em);
+        final Section entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(SectionEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -43,7 +43,7 @@ public class SectionEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        Section entity = em.find(Section.class, id);
+        final Section entity = em.find(Section.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -55,7 +55,7 @@ public class SectionEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<Section> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Section s LEFT JOIN FETCH s.venue WHERE s.id = :entityId ORDER BY s.id", Section.class);
+        final TypedQuery<Section> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Section s LEFT JOIN FETCH s.venue WHERE s.id = :entityId ORDER BY s.id", Section.class);
         findByIdQuery.setParameter("entityId", id);
         Section entity;
         try {
@@ -66,14 +66,14 @@ public class SectionEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        SectionDTO dto = new SectionDTO(entity);
+        final SectionDTO dto = new SectionDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<SectionDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<Section> findAllQuery = em.createQuery("SELECT DISTINCT s FROM Section s LEFT JOIN FETCH s.venue ORDER BY s.id", Section.class);
+        final TypedQuery<Section> findAllQuery = em.createQuery("SELECT DISTINCT s FROM Section s LEFT JOIN FETCH s.venue ORDER BY s.id", Section.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -83,7 +83,7 @@ public class SectionEndpoint {
         final List<Section> searchResults = findAllQuery.getResultList();
         final List<SectionDTO> results = new ArrayList<SectionDTO>();
         for (Section searchResult : searchResults) {
-            SectionDTO dto = new SectionDTO(searchResult);
+            final SectionDTO dto = new SectionDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -93,7 +93,7 @@ public class SectionEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, SectionDTO dto) {
-        TypedQuery<Section> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Section s LEFT JOIN FETCH s.venue WHERE s.id = :entityId ORDER BY s.id", Section.class);
+        final TypedQuery<Section> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM Section s LEFT JOIN FETCH s.venue WHERE s.id = :entityId ORDER BY s.id", Section.class);
         findByIdQuery.setParameter("entityId", id);
         Section entity;
         try {

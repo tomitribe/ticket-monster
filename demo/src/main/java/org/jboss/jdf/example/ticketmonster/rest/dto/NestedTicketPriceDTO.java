@@ -28,7 +28,7 @@ public class NestedTicketPriceDTO implements Serializable {
             entity = new TicketPrice();
         }
         if (this.id != null) {
-            TypedQuery<TicketPrice> findByIdQuery = em
+            final TypedQuery<TicketPrice> findByIdQuery = em
                     .createQuery(
                             "SELECT DISTINCT t FROM TicketPrice t WHERE t.id = :entityId",
                             TicketPrice.class);

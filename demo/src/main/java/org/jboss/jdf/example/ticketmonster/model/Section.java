@@ -161,7 +161,7 @@ public class Section implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Section section = (Section) o;
+        final Section section = (Section) o;
 
         if (venue != null ? !venue.equals(section.venue) : section.venue != null)
             return false;

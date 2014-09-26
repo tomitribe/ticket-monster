@@ -162,7 +162,7 @@ public class Venue implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Venue venue = (Venue) o;
+        final Venue venue = (Venue) o;
 
         if (address != null ? !address.equals(venue.address) : venue.address != null)
             return false;

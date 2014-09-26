@@ -30,9 +30,9 @@ public class BookingDTO implements Serializable {
         if (entity != null) {
             this.totalTicketPrice = entity.getTotalTicketPrice();
             this.id = entity.getId();
-            Iterator<Ticket> iterTickets = entity.getTickets().iterator();
+            final Iterator<Ticket> iterTickets = entity.getTickets().iterator();
             while (iterTickets.hasNext()) {
-                Ticket element = iterTickets.next();
+                final Ticket element = iterTickets.next();
                 this.tickets.add(new NestedTicketDTO(element));
             }
             this.createdOn = entity.getCreatedOn();
@@ -49,11 +49,11 @@ public class BookingDTO implements Serializable {
         Iterator<Ticket> iterTickets = entity.getTickets().iterator();
         while (iterTickets.hasNext()) {
             boolean found = false;
-            Ticket ticket = iterTickets.next();
-            Iterator<NestedTicketDTO> iterDtoTickets = this.getTickets()
+            final Ticket ticket = iterTickets.next();
+            final Iterator<NestedTicketDTO> iterDtoTickets = this.getTickets()
                     .iterator();
             while (iterDtoTickets.hasNext()) {
-                NestedTicketDTO dtoTicket = iterDtoTickets.next();
+                final NestedTicketDTO dtoTicket = iterDtoTickets.next();
                 if (dtoTicket.getId().equals(ticket.getId())) {
                     found = true;
                     break;
@@ -63,24 +63,24 @@ public class BookingDTO implements Serializable {
                 iterTickets.remove();
             }
         }
-        Iterator<NestedTicketDTO> iterDtoTickets = this.getTickets().iterator();
+        final Iterator<NestedTicketDTO> iterDtoTickets = this.getTickets().iterator();
         while (iterDtoTickets.hasNext()) {
             boolean found = false;
-            NestedTicketDTO dtoTicket = iterDtoTickets.next();
+            final NestedTicketDTO dtoTicket = iterDtoTickets.next();
             iterTickets = entity.getTickets().iterator();
             while (iterTickets.hasNext()) {
-                Ticket ticket = iterTickets.next();
+                final Ticket ticket = iterTickets.next();
                 if (dtoTicket.getId().equals(ticket.getId())) {
                     found = true;
                     break;
                 }
             }
             if (found == false) {
-                Iterator<Ticket> resultIter = em
+                final Iterator<Ticket> resultIter = em
                         .createQuery("SELECT DISTINCT t FROM Ticket t",
                                 Ticket.class).getResultList().iterator();
                 while (resultIter.hasNext()) {
-                    Ticket result = resultIter.next();
+                    final Ticket result = resultIter.next();
                     if (result.getId().equals(dtoTicket.getId())) {
                         entity.getTickets().add(result);
                         break;

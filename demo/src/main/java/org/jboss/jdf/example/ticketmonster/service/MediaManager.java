@@ -50,8 +50,8 @@ public class MediaManager {
     private static final File tmpDir;
 
     static {
-        String dataDir = System.getenv("OPENSHIFT_DATA_DIR");
-        String parentDir = dataDir != null ? dataDir : System.getProperty("java.io.tmpdir");
+        final String dataDir = System.getenv("OPENSHIFT_DATA_DIR");
+        final String parentDir = dataDir != null ? dataDir : System.getProperty("java.io.tmpdir");
         tmpDir = new File(parentDir, "org.jboss.jdf.examples.ticket-monster");
         if (tmpDir.exists()) {
             if (tmpDir.isFile())
@@ -89,7 +89,7 @@ public class MediaManager {
         if (cache.containsKey(mediaItem)) {
             return cache.get(mediaItem);
         } else {
-            MediaPath mediaPath = createPath(mediaItem);
+            final MediaPath mediaPath = createPath(mediaItem);
             cache.put(mediaItem, mediaPath);
             return mediaPath;
         }
@@ -126,7 +126,7 @@ public class MediaManager {
 
         if (url != null) {
             try {
-                URLConnection connection = url.openConnection();
+                final URLConnection connection = url.openConnection();
                 if (connection instanceof HttpURLConnection) {
                     return ((HttpURLConnection) connection).getResponseCode() == HttpURLConnection.HTTP_OK;
                 } else {
@@ -150,7 +150,7 @@ public class MediaManager {
      * Check to see if the file is already cached.
      */
     private boolean alreadyCached(String cachedFileName) {
-        File cache = getCachedFile(cachedFileName);
+        final File cache = getCachedFile(cachedFileName);
         if (cache.exists()) {
             if (cache.isDirectory()) {
                 throw new IllegalStateException(cache.getAbsolutePath() + " already exists, and is a directory. Remove it.");
@@ -165,7 +165,7 @@ public class MediaManager {
      * To cache a media item we first load it from the net, then write it to disk.
      */
     private MediaPath createCachedMedia(String url, MediaType mediaType) {
-        String cachedFileName = getCachedFileName(url);
+        final String cachedFileName = getCachedFileName(url);
         if (!alreadyCached(cachedFileName)) {
             URL _url = null;
             try {

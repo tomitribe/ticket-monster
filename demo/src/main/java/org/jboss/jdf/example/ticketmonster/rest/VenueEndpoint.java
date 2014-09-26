@@ -35,7 +35,7 @@ public class VenueEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(VenueDTO dto) {
-        Venue entity = dto.fromDTO(null, em);
+        final Venue entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(VenueEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -43,7 +43,7 @@ public class VenueEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        Venue entity = em.find(Venue.class, id);
+        final Venue entity = em.find(Venue.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -55,7 +55,7 @@ public class VenueEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<Venue> findByIdQuery = em.createQuery("SELECT DISTINCT v FROM Venue v LEFT JOIN FETCH v.sections LEFT JOIN FETCH v.mediaItem WHERE v.id = :entityId ORDER BY v.id", Venue.class);
+        final TypedQuery<Venue> findByIdQuery = em.createQuery("SELECT DISTINCT v FROM Venue v LEFT JOIN FETCH v.sections LEFT JOIN FETCH v.mediaItem WHERE v.id = :entityId ORDER BY v.id", Venue.class);
         findByIdQuery.setParameter("entityId", id);
         Venue entity;
         try {
@@ -66,14 +66,14 @@ public class VenueEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        VenueDTO dto = new VenueDTO(entity);
+        final VenueDTO dto = new VenueDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<VenueDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<Venue> findAllQuery = em.createQuery("SELECT DISTINCT v FROM Venue v LEFT JOIN FETCH v.sections LEFT JOIN FETCH v.mediaItem ORDER BY v.id", Venue.class);
+        final TypedQuery<Venue> findAllQuery = em.createQuery("SELECT DISTINCT v FROM Venue v LEFT JOIN FETCH v.sections LEFT JOIN FETCH v.mediaItem ORDER BY v.id", Venue.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -83,7 +83,7 @@ public class VenueEndpoint {
         final List<Venue> searchResults = findAllQuery.getResultList();
         final List<VenueDTO> results = new ArrayList<VenueDTO>();
         for (Venue searchResult : searchResults) {
-            VenueDTO dto = new VenueDTO(searchResult);
+            final VenueDTO dto = new VenueDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -93,7 +93,7 @@ public class VenueEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, VenueDTO dto) {
-        TypedQuery<Venue> findByIdQuery = em.createQuery("SELECT DISTINCT v FROM Venue v LEFT JOIN FETCH v.sections LEFT JOIN FETCH v.mediaItem WHERE v.id = :entityId ORDER BY v.id", Venue.class);
+        final TypedQuery<Venue> findByIdQuery = em.createQuery("SELECT DISTINCT v FROM Venue v LEFT JOIN FETCH v.sections LEFT JOIN FETCH v.mediaItem WHERE v.id = :entityId ORDER BY v.id", Venue.class);
         findByIdQuery.setParameter("entityId", id);
         Venue entity;
         try {

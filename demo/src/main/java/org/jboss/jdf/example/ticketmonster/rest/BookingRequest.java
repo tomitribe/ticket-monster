@@ -67,8 +67,8 @@ public class BookingRequest {
      *
      * @return
      */
-    Set<Long> getUniquePriceCategoryIds() {
-        Set<Long> priceCategoryIds = new HashSet<Long>();
+    final Set<Long> getUniquePriceCategoryIds() {
+        final Set<Long> priceCategoryIds = new HashSet<Long>();
         for (TicketRequest ticketRequest : getTicketRequests()) {
             if (priceCategoryIds.contains(ticketRequest.getTicketPrice())) {
                 throw new RuntimeException("Duplicate price category id");

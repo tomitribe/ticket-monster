@@ -46,7 +46,7 @@ public class BotStatusService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBotStatus() {
-        BotState state = botService.isBotActive() ? BotState.RUNNING
+        final BotState state = botService.isBotActive() ? BotState.RUNNING
                 : BotState.NOT_RUNNING;
         return Response.ok(state).build();
     }

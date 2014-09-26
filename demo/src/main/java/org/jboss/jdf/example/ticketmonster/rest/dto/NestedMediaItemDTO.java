@@ -29,7 +29,7 @@ public class NestedMediaItemDTO implements Serializable {
             entity = new MediaItem();
         }
         if (this.id != null) {
-            TypedQuery<MediaItem> findByIdQuery = em
+            final TypedQuery<MediaItem> findByIdQuery = em
                     .createQuery(
                             "SELECT DISTINCT m FROM MediaItem m WHERE m.id = :entityId",
                             MediaItem.class);

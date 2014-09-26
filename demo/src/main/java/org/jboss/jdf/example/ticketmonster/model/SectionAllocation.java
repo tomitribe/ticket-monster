@@ -171,7 +171,7 @@ public class SectionAllocation implements Serializable {
      */
     public ArrayList<Seat> allocateSeats(int seatCount, boolean contiguous) {
         // The list of seats allocated
-        ArrayList<Seat> seats = new ArrayList<Seat>();
+        final ArrayList<Seat> seats = new ArrayList<Seat>();
 
         // The seat allocation algorithm starts by iterating through the rows in this section
         for (int rowCounter = 0; rowCounter < section.getNumberOfRows(); rowCounter++) {

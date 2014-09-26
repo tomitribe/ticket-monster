@@ -36,17 +36,17 @@ public class ShowDTO implements Serializable {
         if (entity != null) {
             this.id = entity.getId();
             this.event = new NestedEventDTO(entity.getEvent());
-            Iterator<Performance> iterPerformances = entity.getPerformances()
+            final Iterator<Performance> iterPerformances = entity.getPerformances()
                     .iterator();
             while (iterPerformances.hasNext()) {
-                Performance element = iterPerformances.next();
+                final Performance element = iterPerformances.next();
                 this.performances.add(new NestedPerformanceDTO(element));
             }
             this.venue = new NestedVenueDTO(entity.getVenue());
-            Iterator<TicketPrice> iterTicketPrices = entity.getTicketPrices()
+            final Iterator<TicketPrice> iterTicketPrices = entity.getTicketPrices()
                     .iterator();
             while (iterTicketPrices.hasNext()) {
-                TicketPrice element = iterTicketPrices.next();
+                final TicketPrice element = iterTicketPrices.next();
                 this.ticketPrices.add(new NestedTicketPriceDTO(element));
             }
             this.displayTitle = entity.toString();
@@ -64,11 +64,11 @@ public class ShowDTO implements Serializable {
                 .iterator();
         while (iterPerformances.hasNext()) {
             boolean found = false;
-            Performance performance = iterPerformances.next();
-            Iterator<NestedPerformanceDTO> iterDtoPerformances = this
+            final Performance performance = iterPerformances.next();
+            final Iterator<NestedPerformanceDTO> iterDtoPerformances = this
                     .getPerformances().iterator();
             while (iterDtoPerformances.hasNext()) {
-                NestedPerformanceDTO dtoPerformance = iterDtoPerformances
+                final NestedPerformanceDTO dtoPerformance = iterDtoPerformances
                         .next();
                 if (dtoPerformance.getId().equals(performance.getId())) {
                     found = true;
@@ -77,36 +77,36 @@ public class ShowDTO implements Serializable {
             }
             if (found == false) {
                 iterPerformances.remove();
-                List<SectionAllocation> sectionAllocations = findSectionAllocationsByPerformance(performance, em);
+                final List<SectionAllocation> sectionAllocations = findSectionAllocationsByPerformance(performance, em);
                 for (SectionAllocation sectionAllocation : sectionAllocations) {
                     em.remove(sectionAllocation);
                 }
-                List<Booking> bookings = findBookingsByPerformance(performance, em);
+                final List<Booking> bookings = findBookingsByPerformance(performance, em);
                 for (Booking booking : bookings) {
                     em.remove(booking);
                 }
                 em.remove(performance);
             }
         }
-        Iterator<NestedPerformanceDTO> iterDtoPerformances = this
+        final Iterator<NestedPerformanceDTO> iterDtoPerformances = this
                 .getPerformances().iterator();
         while (iterDtoPerformances.hasNext()) {
             boolean found = false;
-            NestedPerformanceDTO dtoPerformance = iterDtoPerformances.next();
+            final NestedPerformanceDTO dtoPerformance = iterDtoPerformances.next();
             iterPerformances = entity.getPerformances().iterator();
             while (iterPerformances.hasNext()) {
-                Performance performance = iterPerformances.next();
+                final Performance performance = iterPerformances.next();
                 if (dtoPerformance.getId().equals(performance.getId())) {
                     found = true;
                     break;
                 }
             }
             if (found == false) {
-                Iterator<Performance> resultIter = em
+                final Iterator<Performance> resultIter = em
                         .createQuery("SELECT DISTINCT p FROM Performance p",
                                 Performance.class).getResultList().iterator();
                 while (resultIter.hasNext()) {
-                    Performance result = resultIter.next();
+                    final Performance result = resultIter.next();
                     if (result.getId().equals(dtoPerformance.getId())) {
                         entity.getPerformances().add(result);
                         break;
@@ -121,11 +121,11 @@ public class ShowDTO implements Serializable {
                 .iterator();
         while (iterTicketPrices.hasNext()) {
             boolean found = false;
-            TicketPrice ticketPrice = iterTicketPrices.next();
-            Iterator<NestedTicketPriceDTO> iterDtoTicketPrices = this
+            final TicketPrice ticketPrice = iterTicketPrices.next();
+            final Iterator<NestedTicketPriceDTO> iterDtoTicketPrices = this
                     .getTicketPrices().iterator();
             while (iterDtoTicketPrices.hasNext()) {
-                NestedTicketPriceDTO dtoTicketPrice = iterDtoTicketPrices
+                final NestedTicketPriceDTO dtoTicketPrice = iterDtoTicketPrices
                         .next();
                 if (dtoTicketPrice.getId().equals(ticketPrice.getId())) {
                     found = true;
@@ -136,25 +136,25 @@ public class ShowDTO implements Serializable {
                 iterTicketPrices.remove();
             }
         }
-        Iterator<NestedTicketPriceDTO> iterDtoTicketPrices = this
+        final Iterator<NestedTicketPriceDTO> iterDtoTicketPrices = this
                 .getTicketPrices().iterator();
         while (iterDtoTicketPrices.hasNext()) {
             boolean found = false;
-            NestedTicketPriceDTO dtoTicketPrice = iterDtoTicketPrices.next();
+            final NestedTicketPriceDTO dtoTicketPrice = iterDtoTicketPrices.next();
             iterTicketPrices = entity.getTicketPrices().iterator();
             while (iterTicketPrices.hasNext()) {
-                TicketPrice ticketPrice = iterTicketPrices.next();
+                final TicketPrice ticketPrice = iterTicketPrices.next();
                 if (dtoTicketPrice.getId().equals(ticketPrice.getId())) {
                     found = true;
                     break;
                 }
             }
             if (found == false) {
-                Iterator<TicketPrice> resultIter = em
+                final Iterator<TicketPrice> resultIter = em
                         .createQuery("SELECT DISTINCT t FROM TicketPrice t",
                                 TicketPrice.class).getResultList().iterator();
                 while (resultIter.hasNext()) {
-                    TicketPrice result = resultIter.next();
+                    final TicketPrice result = resultIter.next();
                     if (result.getId().equals(dtoTicketPrice.getId())) {
                         entity.getTicketPrices().add(result);
                         break;
@@ -167,20 +167,20 @@ public class ShowDTO implements Serializable {
     }
 
     public List<SectionAllocation> findSectionAllocationsByPerformance(Performance performance, EntityManager em) {
-        CriteriaQuery<SectionAllocation> criteria = em
+        final CriteriaQuery<SectionAllocation> criteria = em
                 .getCriteriaBuilder().createQuery(SectionAllocation.class);
-        Root<SectionAllocation> from = criteria.from(SectionAllocation.class);
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
+        final Root<SectionAllocation> from = criteria.from(SectionAllocation.class);
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
         return em.createQuery(
                 criteria.select(from).where(performanceIsSame)).getResultList();
     }
 
     public List<Booking> findBookingsByPerformance(Performance performance, EntityManager em) {
-        CriteriaQuery<Booking> criteria = em.getCriteriaBuilder().createQuery(Booking.class);
-        Root<Booking> from = criteria.from(Booking.class);
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
+        final CriteriaQuery<Booking> criteria = em.getCriteriaBuilder().createQuery(Booking.class);
+        final Root<Booking> from = criteria.from(Booking.class);
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
         return em.createQuery(
                 criteria.select(from).where(performanceIsSame)).getResultList();
     }

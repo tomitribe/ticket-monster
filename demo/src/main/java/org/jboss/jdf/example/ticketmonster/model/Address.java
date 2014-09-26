@@ -60,7 +60,7 @@ public class Address implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Address address = (Address) o;
+        final Address address = (Address) o;
 
         if (city != null ? !city.equals(address.city) : address.city != null)
             return false;

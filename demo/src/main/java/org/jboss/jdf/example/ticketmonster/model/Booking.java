@@ -187,7 +187,7 @@ public class Booking implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Booking booking = (Booking) o;
+        final Booking booking = (Booking) o;
 
         if (id != null ? !id.equals(booking.id) : booking.id != null)
             return false;

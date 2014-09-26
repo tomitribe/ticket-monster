@@ -45,13 +45,13 @@ public class EventService extends BaseEntityService<Event> {
      */
     @Override
     protected Predicate[] extractPredicates(
-            MultivaluedMap<String, String> queryParameters,
-            CriteriaBuilder criteriaBuilder,
-            Root<Event> root) {
-        List<Predicate> predicates = new ArrayList<Predicate>();
+            final MultivaluedMap<String, String> queryParameters,
+            final CriteriaBuilder criteriaBuilder,
+            final Root<Event> root) {
+        final List<Predicate> predicates = new ArrayList<Predicate>();
 
         if (queryParameters.containsKey("category")) {
-            String category = queryParameters.getFirst("category");
+            final String category = queryParameters.getFirst("category");
             predicates.add(criteriaBuilder.equal(root.get("category").get("id"), category));
         }
 

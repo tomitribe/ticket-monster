@@ -35,7 +35,7 @@ public class EventCategoryEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(EventCategoryDTO dto) {
-        EventCategory entity = dto.fromDTO(null, em);
+        final EventCategory entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(EventCategoryEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -43,7 +43,7 @@ public class EventCategoryEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        EventCategory entity = em.find(EventCategory.class, id);
+        final EventCategory entity = em.find(EventCategory.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -55,7 +55,7 @@ public class EventCategoryEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<EventCategory> findByIdQuery = em.createQuery("SELECT DISTINCT e FROM EventCategory e WHERE e.id = :entityId ORDER BY e.id", EventCategory.class);
+        final TypedQuery<EventCategory> findByIdQuery = em.createQuery("SELECT DISTINCT e FROM EventCategory e WHERE e.id = :entityId ORDER BY e.id", EventCategory.class);
         findByIdQuery.setParameter("entityId", id);
         EventCategory entity;
         try {
@@ -66,14 +66,14 @@ public class EventCategoryEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        EventCategoryDTO dto = new EventCategoryDTO(entity);
+        final EventCategoryDTO dto = new EventCategoryDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<EventCategoryDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<EventCategory> findAllQuery = em.createQuery("SELECT DISTINCT e FROM EventCategory e ORDER BY e.id", EventCategory.class);
+        final TypedQuery<EventCategory> findAllQuery = em.createQuery("SELECT DISTINCT e FROM EventCategory e ORDER BY e.id", EventCategory.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -83,7 +83,7 @@ public class EventCategoryEndpoint {
         final List<EventCategory> searchResults = findAllQuery.getResultList();
         final List<EventCategoryDTO> results = new ArrayList<EventCategoryDTO>();
         for (EventCategory searchResult : searchResults) {
-            EventCategoryDTO dto = new EventCategoryDTO(searchResult);
+            final EventCategoryDTO dto = new EventCategoryDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -93,7 +93,7 @@ public class EventCategoryEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, EventCategoryDTO dto) {
-        TypedQuery<EventCategory> findByIdQuery = em.createQuery("SELECT DISTINCT e FROM EventCategory e WHERE e.id = :entityId ORDER BY e.id", EventCategory.class);
+        final TypedQuery<EventCategory> findByIdQuery = em.createQuery("SELECT DISTINCT e FROM EventCategory e WHERE e.id = :entityId ORDER BY e.id", EventCategory.class);
         findByIdQuery.setParameter("entityId", id);
         EventCategory entity;
         try {

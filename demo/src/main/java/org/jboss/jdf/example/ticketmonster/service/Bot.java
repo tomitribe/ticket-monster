@@ -57,7 +57,7 @@ public class Bot {
     private TimerService timerService;
 
     public Timer start() {
-        String startMessage = new StringBuilder("==========================\n")
+        final String startMessage = new StringBuilder("==========================\n")
                 .append("Bot started at ").append(new Date().toString()).append("\n")
                 .toString();
         event.fire(startMessage);
@@ -65,7 +65,7 @@ public class Bot {
     }
 
     public void stop(Timer timer) {
-        String stopMessage = new StringBuilder("==========================\n")
+        final String stopMessage = new StringBuilder("==========================\n")
                 .append("Bot stopped at ").append(new Date().toString()).append("\n")
                 .toString();
         event.fire(stopMessage);
@@ -75,20 +75,20 @@ public class Bot {
     @Timeout
     public void book(Timer timer) {
         // Select a show at random
-        Show show = selectAtRandom(showService.getAll(MultivaluedHashMap.<String, String>empty()));
+        final Show show = selectAtRandom(showService.getAll(MultivaluedHashMap.<String, String>empty()));
 
         // Select a performance at random
-        Performance performance = selectAtRandom(show.getPerformances());
+        final Performance performance = selectAtRandom(show.getPerformances());
 
-        String requestor = selectAtRandom(BOOKERS);
+        final String requestor = selectAtRandom(BOOKERS);
 
-        BookingRequest bookingRequest = new BookingRequest(performance, requestor);
+        final BookingRequest bookingRequest = new BookingRequest(performance, requestor);
 
-        List<TicketPrice> possibleTicketPrices = new ArrayList<TicketPrice>(show.getTicketPrices());
+        final List<TicketPrice> possibleTicketPrices = new ArrayList<TicketPrice>(show.getTicketPrices());
 
-        List<Integer> indicies = selectAtRandom(MAX_TICKET_REQUESTS < possibleTicketPrices.size() ? MAX_TICKET_REQUESTS : possibleTicketPrices.size());
+        final List<Integer> indicies = selectAtRandom(MAX_TICKET_REQUESTS < possibleTicketPrices.size() ? MAX_TICKET_REQUESTS : possibleTicketPrices.size());
 
-        StringBuilder message = new StringBuilder("==========================\n")
+        final StringBuilder message = new StringBuilder("==========================\n")
                 .append("Booking by ")
                 .append(requestor)
                 .append(" at ")
@@ -100,7 +100,7 @@ public class Bot {
 
         for (int index : indicies) {
             int no = random.nextInt(MAX_TICKETS_PER_REQUEST);
-            TicketPrice price = possibleTicketPrices.get(index);
+            final TicketPrice price = possibleTicketPrices.get(index);
             bookingRequest.addTicketRequest(new TicketRequest(price, no));
             message
                     .append(no)
@@ -109,7 +109,7 @@ public class Bot {
                     .append("\n");
 
         }
-        Response response = bookingService.createBooking(bookingRequest);
+        final Response response = bookingService.createBooking(bookingRequest);
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             message.append("SUCCESSFUL\n")
                     .append("~~~~~~~~~~~~~~~~~~~~~~~~~\n");
@@ -144,7 +144,7 @@ public class Bot {
     }
 
     private List<Integer> selectAtRandom(int max) {
-        List<Integer> indicies = new ArrayList<Integer>();
+        final List<Integer> indicies = new ArrayList<Integer>();
         for (int i = 0; i < max; ) {
             int r = random.nextInt(max);
             if (!indicies.contains(r)) {

@@ -142,7 +142,7 @@ public class TicketPrice implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        TicketPrice that = (TicketPrice) o;
+        final TicketPrice that = (TicketPrice) o;
 
         if (section != null ? !section.equals(that.section) : that.section != null)
             return false;

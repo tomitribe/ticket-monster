@@ -42,7 +42,7 @@ public class PerformanceEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(PerformanceDTO dto) {
-        Performance entity = dto.fromDTO(null, em);
+        final Performance entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(PerformanceEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -50,19 +50,19 @@ public class PerformanceEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        Performance entity = em.find(Performance.class, id);
+        final Performance entity = em.find(Performance.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        Show show = entity.getShow();
+        final Show show = entity.getShow();
         show.getPerformances().remove(entity);
         entity.setShow(null);
         this.em.merge(show);
-        List<SectionAllocation> sectionAllocations = findSectionAllocationsByPerformance(entity);
+        final List<SectionAllocation> sectionAllocations = findSectionAllocationsByPerformance(entity);
         for (SectionAllocation sectionAllocation : sectionAllocations) {
             this.em.remove(sectionAllocation);
         }
-        List<Booking> bookings = findBookingsByPerformance(entity);
+        final List<Booking> bookings = findBookingsByPerformance(entity);
         for (Booking booking : bookings) {
             this.em.remove(booking);
         }
@@ -74,7 +74,7 @@ public class PerformanceEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<Performance> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Performance p LEFT JOIN FETCH p.show WHERE p.id = :entityId ORDER BY p.id", Performance.class);
+        final TypedQuery<Performance> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Performance p LEFT JOIN FETCH p.show WHERE p.id = :entityId ORDER BY p.id", Performance.class);
         findByIdQuery.setParameter("entityId", id);
         Performance entity;
         try {
@@ -85,14 +85,14 @@ public class PerformanceEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        PerformanceDTO dto = new PerformanceDTO(entity);
+        final PerformanceDTO dto = new PerformanceDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<PerformanceDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<Performance> findAllQuery = em.createQuery("SELECT DISTINCT p FROM Performance p LEFT JOIN FETCH p.show ORDER BY p.id", Performance.class);
+        final TypedQuery<Performance> findAllQuery = em.createQuery("SELECT DISTINCT p FROM Performance p LEFT JOIN FETCH p.show ORDER BY p.id", Performance.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -102,7 +102,7 @@ public class PerformanceEndpoint {
         final List<Performance> searchResults = findAllQuery.getResultList();
         final List<PerformanceDTO> results = new ArrayList<PerformanceDTO>();
         for (Performance searchResult : searchResults) {
-            PerformanceDTO dto = new PerformanceDTO(searchResult);
+            final PerformanceDTO dto = new PerformanceDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -112,7 +112,7 @@ public class PerformanceEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, PerformanceDTO dto) {
-        TypedQuery<Performance> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Performance p LEFT JOIN FETCH p.show WHERE p.id = :entityId ORDER BY p.id", Performance.class);
+        final TypedQuery<Performance> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Performance p LEFT JOIN FETCH p.show WHERE p.id = :entityId ORDER BY p.id", Performance.class);
         findByIdQuery.setParameter("entityId", id);
         Performance entity;
         try {
@@ -126,21 +126,21 @@ public class PerformanceEndpoint {
     }
 
     public List<SectionAllocation> findSectionAllocationsByPerformance(Performance performance) {
-        CriteriaQuery<SectionAllocation> criteria = this.em
+        final CriteriaQuery<SectionAllocation> criteria = this.em
                 .getCriteriaBuilder().createQuery(SectionAllocation.class);
-        Root<SectionAllocation> from = criteria.from(SectionAllocation.class);
-        CriteriaBuilder builder = this.em.getCriteriaBuilder();
-        Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
+        final Root<SectionAllocation> from = criteria.from(SectionAllocation.class);
+        final CriteriaBuilder builder = this.em.getCriteriaBuilder();
+        final Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
         return this.em.createQuery(
                 criteria.select(from).where(performanceIsSame)).getResultList();
     }
 
     public List<Booking> findBookingsByPerformance(Performance performance) {
-        CriteriaQuery<Booking> criteria = this.em
+        final CriteriaQuery<Booking> criteria = this.em
                 .getCriteriaBuilder().createQuery(Booking.class);
-        Root<Booking> from = criteria.from(Booking.class);
-        CriteriaBuilder builder = this.em.getCriteriaBuilder();
-        Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
+        final Root<Booking> from = criteria.from(Booking.class);
+        final CriteriaBuilder builder = this.em.getCriteriaBuilder();
+        final Predicate performanceIsSame = builder.equal(from.get("performance"), performance);
         return this.em.createQuery(
                 criteria.select(from).where(performanceIsSame)).getResultList();
     }

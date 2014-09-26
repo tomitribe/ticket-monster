@@ -74,9 +74,9 @@ public class BotService {
             stop();
             // Delete 10 bookings at a time
             while (true) {
-                MultivaluedHashMap<String, String> params = new MultivaluedHashMap<String, String>();
+                final MultivaluedHashMap<String, String> params = new MultivaluedHashMap<String, String>();
                 params.add("maxResults", Integer.toString(10));
-                List<Booking> bookings = bookingService.getAll(params);
+                final List<Booking> bookings = bookingService.getAll(params);
                 for (Booking booking : bookings) {
                     bookingService.deleteBooking(booking.getId());
                     event.fire("Deleted booking " + booking.getId() + " for "

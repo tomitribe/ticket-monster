@@ -35,7 +35,7 @@ public class SectionAllocationEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(SectionAllocationDTO dto) {
-        SectionAllocation entity = dto.fromDTO(null, em);
+        final SectionAllocation entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(SectionAllocationEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -43,7 +43,7 @@ public class SectionAllocationEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        SectionAllocation entity = em.find(SectionAllocation.class, id);
+        final SectionAllocation entity = em.find(SectionAllocation.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -55,7 +55,7 @@ public class SectionAllocationEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<SectionAllocation> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM SectionAllocation s LEFT JOIN FETCH s.performance LEFT JOIN FETCH s.section WHERE s.id = :entityId ORDER BY s.id", SectionAllocation.class);
+        final TypedQuery<SectionAllocation> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM SectionAllocation s LEFT JOIN FETCH s.performance LEFT JOIN FETCH s.section WHERE s.id = :entityId ORDER BY s.id", SectionAllocation.class);
         findByIdQuery.setParameter("entityId", id);
         SectionAllocation entity;
         try {
@@ -66,14 +66,14 @@ public class SectionAllocationEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        SectionAllocationDTO dto = new SectionAllocationDTO(entity);
+        final SectionAllocationDTO dto = new SectionAllocationDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<SectionAllocationDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<SectionAllocation> findAllQuery = em.createQuery("SELECT DISTINCT s FROM SectionAllocation s LEFT JOIN FETCH s.performance LEFT JOIN FETCH s.section ORDER BY s.id", SectionAllocation.class);
+        final TypedQuery<SectionAllocation> findAllQuery = em.createQuery("SELECT DISTINCT s FROM SectionAllocation s LEFT JOIN FETCH s.performance LEFT JOIN FETCH s.section ORDER BY s.id", SectionAllocation.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -83,7 +83,7 @@ public class SectionAllocationEndpoint {
         final List<SectionAllocation> searchResults = findAllQuery.getResultList();
         final List<SectionAllocationDTO> results = new ArrayList<SectionAllocationDTO>();
         for (SectionAllocation searchResult : searchResults) {
-            SectionAllocationDTO dto = new SectionAllocationDTO(searchResult);
+            final SectionAllocationDTO dto = new SectionAllocationDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -93,7 +93,7 @@ public class SectionAllocationEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, SectionAllocationDTO dto) {
-        TypedQuery<SectionAllocation> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM SectionAllocation s LEFT JOIN FETCH s.performance LEFT JOIN FETCH s.section WHERE s.id = :entityId ORDER BY s.id", SectionAllocation.class);
+        final TypedQuery<SectionAllocation> findByIdQuery = em.createQuery("SELECT DISTINCT s FROM SectionAllocation s LEFT JOIN FETCH s.performance LEFT JOIN FETCH s.section WHERE s.id = :entityId ORDER BY s.id", SectionAllocation.class);
         findByIdQuery.setParameter("entityId", id);
         SectionAllocation entity;
         try {

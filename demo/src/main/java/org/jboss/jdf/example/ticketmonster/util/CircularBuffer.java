@@ -24,7 +24,7 @@ public class CircularBuffer<T> {
     }
 
     public List<T> getContents() {
-        List<T> returnedItems = new ArrayList<T>();
+        final List<T> returnedItems = new ArrayList<T>();
         synchronized (buffer) {
             if (cursor > capacity) {
                 for (int i = cursor % capacity; i < capacity; i++) {

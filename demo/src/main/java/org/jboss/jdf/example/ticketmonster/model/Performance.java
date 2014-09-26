@@ -116,7 +116,7 @@ public class Performance implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Performance that = (Performance) o;
+        final Performance that = (Performance) o;
 
         if (date != null ? !date.equals(that.date) : that.date != null)
             return false;

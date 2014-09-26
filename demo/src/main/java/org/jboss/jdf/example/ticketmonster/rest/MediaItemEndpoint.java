@@ -35,7 +35,7 @@ public class MediaItemEndpoint {
     @POST
     @Consumes("application/json")
     public Response create(MediaItemDTO dto) {
-        MediaItem entity = dto.fromDTO(null, em);
+        final MediaItem entity = dto.fromDTO(null, em);
         em.persist(entity);
         return Response.created(UriBuilder.fromResource(MediaItemEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
@@ -43,7 +43,7 @@ public class MediaItemEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Long id) {
-        MediaItem entity = em.find(MediaItem.class, id);
+        final MediaItem entity = em.find(MediaItem.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -55,7 +55,7 @@ public class MediaItemEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") Long id) {
-        TypedQuery<MediaItem> findByIdQuery = em.createQuery("SELECT DISTINCT m FROM MediaItem m WHERE m.id = :entityId ORDER BY m.id", MediaItem.class);
+        final TypedQuery<MediaItem> findByIdQuery = em.createQuery("SELECT DISTINCT m FROM MediaItem m WHERE m.id = :entityId ORDER BY m.id", MediaItem.class);
         findByIdQuery.setParameter("entityId", id);
         MediaItem entity;
         try {
@@ -66,14 +66,14 @@ public class MediaItemEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        MediaItemDTO dto = new MediaItemDTO(entity);
+        final MediaItemDTO dto = new MediaItemDTO(entity);
         return Response.ok(dto).build();
     }
 
     @GET
     @Produces("application/json")
     public List<MediaItemDTO> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
-        TypedQuery<MediaItem> findAllQuery = em.createQuery("SELECT DISTINCT m FROM MediaItem m ORDER BY m.id", MediaItem.class);
+        final TypedQuery<MediaItem> findAllQuery = em.createQuery("SELECT DISTINCT m FROM MediaItem m ORDER BY m.id", MediaItem.class);
         if (startPosition != null) {
             findAllQuery.setFirstResult(startPosition);
         }
@@ -83,7 +83,7 @@ public class MediaItemEndpoint {
         final List<MediaItem> searchResults = findAllQuery.getResultList();
         final List<MediaItemDTO> results = new ArrayList<MediaItemDTO>();
         for (MediaItem searchResult : searchResults) {
-            MediaItemDTO dto = new MediaItemDTO(searchResult);
+            final MediaItemDTO dto = new MediaItemDTO(searchResult);
             results.add(dto);
         }
         return results;
@@ -93,7 +93,7 @@ public class MediaItemEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
     public Response update(@PathParam("id") Long id, MediaItemDTO dto) {
-        TypedQuery<MediaItem> findByIdQuery = em.createQuery("SELECT DISTINCT m FROM MediaItem m WHERE m.id = :entityId ORDER BY m.id", MediaItem.class);
+        final TypedQuery<MediaItem> findByIdQuery = em.createQuery("SELECT DISTINCT m FROM MediaItem m WHERE m.id = :entityId ORDER BY m.id", MediaItem.class);
         findByIdQuery.setParameter("entityId", id);
         MediaItem entity;
         try {

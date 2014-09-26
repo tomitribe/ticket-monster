@@ -171,7 +171,7 @@ public class Event implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Event event = (Event) o;
+        final Event event = (Event) o;
 
         if (name != null ? !name.equals(event.name) : event.name != null)
             return false;

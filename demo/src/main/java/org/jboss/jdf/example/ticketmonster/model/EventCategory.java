@@ -79,7 +79,7 @@ public class EventCategory implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        EventCategory that = (EventCategory) o;
+        final EventCategory that = (EventCategory) o;
 
         if (description != null ? !description.equals(that.description) : that.description != null)
             return false;

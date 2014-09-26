@@ -40,9 +40,9 @@ public class VenueDTO implements Serializable {
             this.address = new AddressDTO(entity.getAddress());
             this.mediaItem = new NestedMediaItemDTO(entity.getMediaItem());
             this.description = entity.getDescription();
-            Iterator<Section> iterSections = entity.getSections().iterator();
+            final Iterator<Section> iterSections = entity.getSections().iterator();
             while (iterSections.hasNext()) {
-                Section element = iterSections.next();
+                final Section element = iterSections.next();
                 this.sections.add(new NestedSectionDTO(element));
             }
             this.capacity = entity.getCapacity();
@@ -65,11 +65,11 @@ public class VenueDTO implements Serializable {
         Iterator<Section> iterSections = entity.getSections().iterator();
         while (iterSections.hasNext()) {
             boolean found = false;
-            Section section = iterSections.next();
-            Iterator<NestedSectionDTO> iterDtoSections = this.getSections()
+            final Section section = iterSections.next();
+            final Iterator<NestedSectionDTO> iterDtoSections = this.getSections()
                     .iterator();
             while (iterDtoSections.hasNext()) {
-                NestedSectionDTO dtoSection = iterDtoSections.next();
+                final NestedSectionDTO dtoSection = iterDtoSections.next();
                 if (dtoSection.getId().equals(section.getId())) {
                     found = true;
                     break;
@@ -77,38 +77,38 @@ public class VenueDTO implements Serializable {
             }
             if (found == false) {
                 iterSections.remove();
-                List<SectionAllocation> sectionAllocations = findSectionAllocationBySection(section, em);
+                final List<SectionAllocation> sectionAllocations = findSectionAllocationBySection(section, em);
                 for (SectionAllocation sectionAllocation : sectionAllocations) {
                     em.remove(sectionAllocation);
                 }
-                List<TicketPrice> ticketPrices = findTicketPricesBySection(section, em);
+                final List<TicketPrice> ticketPrices = findTicketPricesBySection(section, em);
                 for (TicketPrice ticketPrice : ticketPrices) {
-                    Show show = ticketPrice.getShow();
+                    final Show show = ticketPrice.getShow();
                     show.getTicketPrices().remove(ticketPrice);
                     em.remove(ticketPrice);
                 }
                 em.remove(section);
             }
         }
-        Iterator<NestedSectionDTO> iterDtoSections = this.getSections()
+        final Iterator<NestedSectionDTO> iterDtoSections = this.getSections()
                 .iterator();
         while (iterDtoSections.hasNext()) {
             boolean found = false;
-            NestedSectionDTO dtoSection = iterDtoSections.next();
+            final NestedSectionDTO dtoSection = iterDtoSections.next();
             iterSections = entity.getSections().iterator();
             while (iterSections.hasNext()) {
-                Section section = iterSections.next();
+                final Section section = iterSections.next();
                 if (dtoSection.getId().equals(section.getId())) {
                     found = true;
                     break;
                 }
             }
             if (found == false) {
-                Iterator<Section> resultIter = em
+                final Iterator<Section> resultIter = em
                         .createQuery("SELECT DISTINCT s FROM Section s",
                                 Section.class).getResultList().iterator();
                 while (resultIter.hasNext()) {
-                    Section result = resultIter.next();
+                    final Section result = resultIter.next();
                     if (result.getId().equals(dtoSection.getId())) {
                         entity.getSections().add(result);
                         break;
@@ -122,21 +122,21 @@ public class VenueDTO implements Serializable {
     }
 
     public List<SectionAllocation> findSectionAllocationBySection(Section section, EntityManager em) {
-        CriteriaQuery<SectionAllocation> criteria = em
+        final CriteriaQuery<SectionAllocation> criteria = em
                 .getCriteriaBuilder().createQuery(SectionAllocation.class);
-        Root<SectionAllocation> from = criteria.from(SectionAllocation.class);
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        Predicate sectionIsSame = builder.equal(from.get("section"), section);
+        final Root<SectionAllocation> from = criteria.from(SectionAllocation.class);
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final Predicate sectionIsSame = builder.equal(from.get("section"), section);
         return em.createQuery(
                 criteria.select(from).where(sectionIsSame)).getResultList();
     }
 
     public List<TicketPrice> findTicketPricesBySection(Section section, EntityManager em) {
-        CriteriaQuery<TicketPrice> criteria = em
+        final CriteriaQuery<TicketPrice> criteria = em
                 .getCriteriaBuilder().createQuery(TicketPrice.class);
-        Root<TicketPrice> from = criteria.from(TicketPrice.class);
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        Predicate sectionIsSame = builder.equal(from.get("section"), section);
+        final Root<TicketPrice> from = criteria.from(TicketPrice.class);
+        final CriteriaBuilder builder = em.getCriteriaBuilder();
+        final Predicate sectionIsSame = builder.equal(from.get("section"), section);
         return em.createQuery(
                 criteria.select(from).where(sectionIsSame)).getResultList();
     }

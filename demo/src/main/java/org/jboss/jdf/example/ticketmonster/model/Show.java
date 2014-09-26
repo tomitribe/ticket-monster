@@ -165,7 +165,7 @@ public class Show implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Show show = (Show) o;
+        final Show show = (Show) o;
 
         if (event != null ? !event.equals(show.event) : show.event != null)
             return false;

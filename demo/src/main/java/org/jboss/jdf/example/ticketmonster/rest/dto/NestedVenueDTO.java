@@ -32,7 +32,7 @@ public class NestedVenueDTO implements Serializable {
             entity = new Venue();
         }
         if (this.id != null) {
-            TypedQuery<Venue> findByIdQuery = em.createQuery(
+            final TypedQuery<Venue> findByIdQuery = em.createQuery(
                     "SELECT DISTINCT v FROM Venue v WHERE v.id = :entityId",
                     Venue.class);
             findByIdQuery.setParameter("entityId", this.id);
