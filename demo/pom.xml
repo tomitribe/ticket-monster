@@ -667,6 +667,7 @@
               <debug>false</debug>
       	      <debugPort>5005</debugPort>
       	      <args>-Dopenejb.validation.output.level=VERBOSE</args>
+              <simpleLog>true</simpleLog>
             </configuration>
           </plugin>
         </plugins>
