@@ -120,3 +120,115 @@ You can run TicketMonster into a local JBoss EAP 6.2 instance or on OpenShift.
 
 _NOTE: this version of TicketMonster uses the *binary* deployment style._ 
 
+
+# Application Stats
+
+Contains 19 REST Service classes:
+
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/bookings                                      ->  EJB org.jboss.jdf.example.ticketmonster.rest.BookingService
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/eventcategories                               ->  EJB org.jboss.jdf.example.ticketmonster.rest.EventCategoryEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/events                                        ->  EJB org.jboss.jdf.example.ticketmonster.rest.EventService
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/forge/bookings                                ->  EJB org.jboss.jdf.example.ticketmonster.rest.BookingEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/forge/events                                  ->  EJB org.jboss.jdf.example.ticketmonster.rest.EventEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/forge/shows                                   ->  EJB org.jboss.jdf.example.ticketmonster.rest.ShowEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/forge/venues                                  ->  EJB org.jboss.jdf.example.ticketmonster.rest.VenueEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/mediaitems                                    ->  EJB org.jboss.jdf.example.ticketmonster.rest.MediaItemEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/metrics                                       ->  EJB org.jboss.jdf.example.ticketmonster.rest.MetricsService
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/performances                                  ->  EJB org.jboss.jdf.example.ticketmonster.rest.PerformanceEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/sectionallocations                            ->  EJB org.jboss.jdf.example.ticketmonster.rest.SectionAllocationEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/sections                                      ->  EJB org.jboss.jdf.example.ticketmonster.rest.SectionEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/shows                                         ->  EJB org.jboss.jdf.example.ticketmonster.rest.ShowService
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/ticketcategories                              ->  EJB org.jboss.jdf.example.ticketmonster.rest.TicketCategoryEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/ticketprices                                  ->  EJB org.jboss.jdf.example.ticketmonster.rest.TicketPriceEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/tickets                                       ->  EJB org.jboss.jdf.example.ticketmonster.rest.TicketEndpoint
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/venues                                        ->  EJB org.jboss.jdf.example.ticketmonster.rest.VenueService
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/bot                                           -> Pojo org.jboss.jdf.example.ticketmonster.rest.BotStatusService
+    INFO -      Service URI: http://localhost:8080/ticket-monster/rest/media                                         -> Pojo org.jboss.jdf.example.ticketmonster.rest.MediaService
+
+
+With a Total of 82 REST operations:
+
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/bookings/                                     ->      Response deleteAllBookings()
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/bookings/{id:[0-9][0-9]*}                     ->      Response deleteBooking(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/bookings/                                     ->      List<T> getAll(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/bookings/count                                ->      Map<String, Long> getCount(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/bookings/{id:[0-9][0-9]*}                     ->      T getSingleInstance(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/bookings/                                     ->      Response createBooking(BookingRequest)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/eventcategories/{id:[0-9][0-9]*}              ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/eventcategories/                              ->      List<EventCategoryDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/eventcategories/{id:[0-9][0-9]*}              ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/eventcategories/                              ->      Response create(EventCategoryDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/eventcategories/{id:[0-9][0-9]*}              ->      Response update(Long, EventCategoryDTO)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/events/                                       ->      List<T> getAll(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/events/count                                  ->      Map<String, Long> getCount(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/events/{id:[0-9][0-9]*}                       ->      T getSingleInstance(Long)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/forge/bookings/{id:[0-9][0-9]*}               ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/bookings/                               ->      List<BookingDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/bookings/{id:[0-9][0-9]*}               ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/forge/bookings/                               ->      Response create(BookingDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/forge/bookings/{id:[0-9][0-9]*}               ->      Response update(Long, BookingDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/forge/events/{id:[0-9][0-9]*}                 ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/events/                                 ->      List<EventDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/events/{id:[0-9][0-9]*}                 ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/forge/events/                                 ->      Response create(EventDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/forge/events/{id:[0-9][0-9]*}                 ->      Response update(Long, EventDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/forge/shows/{id:[0-9][0-9]*}                  ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/shows/                                  ->      List<ShowDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/shows/{id:[0-9][0-9]*}                  ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/forge/shows/                                  ->      Response create(ShowDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/forge/shows/{id:[0-9][0-9]*}                  ->      Response update(Long, ShowDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/forge/venues/{id:[0-9][0-9]*}                 ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/venues/                                 ->      List<VenueDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/forge/venues/{id:[0-9][0-9]*}                 ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/forge/venues/                                 ->      Response create(VenueDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/forge/venues/{id:[0-9][0-9]*}                 ->      Response update(Long, VenueDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/mediaitems/{id:[0-9][0-9]*}                   ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/mediaitems/                                   ->      List<MediaItemDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/mediaitems/{id:[0-9][0-9]*}                   ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/mediaitems/                                   ->      Response create(MediaItemDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/mediaitems/{id:[0-9][0-9]*}                   ->      Response update(Long, MediaItemDTO)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/metrics/                                      ->      List<ShowMetric> getMetrics()
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/performances/{id:[0-9][0-9]*}                 ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/performances/                                 ->      List<PerformanceDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/performances/{id:[0-9][0-9]*}                 ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/performances/                                 ->      Response create(PerformanceDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/performances/{id:[0-9][0-9]*}                 ->      Response update(Long, PerformanceDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/sectionallocations/{id:[0-9][0-9]*}           ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/sectionallocations/                           ->      List<SectionAllocationDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/sectionallocations/{id:[0-9][0-9]*}           ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/sectionallocations/                           ->      Response create(SectionAllocationDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/sectionallocations/{id:[0-9][0-9]*}           ->      Response update(Long, SectionAllocationDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/sections/{id:[0-9][0-9]*}                     ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/sections/                                     ->      List<SectionDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/sections/{id:[0-9][0-9]*}                     ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/sections/                                     ->      Response create(SectionDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/sections/{id:[0-9][0-9]*}                     ->      Response update(Long, SectionDTO)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/shows/                                        ->      List<T> getAll(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/shows/count                                   ->      Map<String, Long> getCount(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/shows/performance/{performanceId:[0-9][0-9]*} ->      Show getShowByPerformance(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/shows/{id:[0-9][0-9]*}                        ->      T getSingleInstance(Long)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/ticketcategories/{id:[0-9][0-9]*}             ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/ticketcategories/                             ->      List<TicketCategoryDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/ticketcategories/{id:[0-9][0-9]*}             ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/ticketcategories/                             ->      Response create(TicketCategoryDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/ticketcategories/{id:[0-9][0-9]*}             ->      Response update(Long, TicketCategoryDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/ticketprices/{id:[0-9][0-9]*}                 ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/ticketprices/                                 ->      List<TicketPriceDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/ticketprices/{id:[0-9][0-9]*}                 ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/ticketprices/                                 ->      Response create(TicketPriceDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/ticketprices/{id:[0-9][0-9]*}                 ->      Response update(Long, TicketPriceDTO)
+    INFO -            DELETE http://localhost:8080/ticket-monster/rest/tickets/{id:[0-9][0-9]*}                      ->      Response deleteById(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/tickets/                                      ->      List<TicketDTO> listAll(Integer, Integer)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/tickets/{id:[0-9][0-9]*}                      ->      Response findById(Long)
+    INFO -              POST http://localhost:8080/ticket-monster/rest/tickets/                                      ->      Response create(TicketDTO)
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/tickets/{id:[0-9][0-9]*}                      ->      Response update(Long, TicketDTO)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/venues/                                       ->      List<T> getAll(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/venues/count                                  ->      Map<String, Long> getCount(UriInfo)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/venues/{id:[0-9][0-9]*}                       ->      T getSingleInstance(Long)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/bot/messages                                  ->      List<String> getMessages()
+    INFO -               GET http://localhost:8080/ticket-monster/rest/bot/status                                    ->      Response getBotStatus()
+    INFO -               PUT http://localhost:8080/ticket-monster/rest/bot/status                                    ->      Response updateBotStatus(BotState)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/media/cache/{cachedFileName:\S*}              ->      File getCachedMediaContent(String)
+    INFO -               GET http://localhost:8080/ticket-monster/rest/media/{id:\d*}                                ->      File getMediaContent(Long)
+
+
