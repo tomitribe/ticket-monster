@@ -172,4 +172,21 @@ public abstract class BaseEntityService<T> {
         criteriaQuery.select(criteriaBuilder.createQuery(entityClass).getSelection()).where(condition);
         return entityManager.createQuery(criteriaQuery).getSingleResult();
     }
+    
+    // some additional helper methods - these are not exposed via the JAX-RS, but are
+    // available for EJB invocations
+    
+    public T create(T entity) {
+        entityManager.persist(entity);
+        return entity;
+    }
+    
+    public void update(T entity) {
+        entityManager.merge(entity);
+    }
+    
+    public void delete(Long id) {
+        T entity = getSingleInstance(id);
+        entityManager.remove(entity);
+    }
 }
