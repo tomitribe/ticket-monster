@@ -13,21 +13,22 @@
  */
 package org.jboss.jdf.example.ticketmonster.command;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableList;
-import org.fusesource.jansi.AnsiString;
-
-import java.io.IOException;
-import java.io.Writer;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.repeat;
 import static java.lang.Math.max;
 import static java.lang.String.format;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.fusesource.jansi.AnsiString;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 
 public class AlignedTablePrinter {
     private static final Splitter LINE_SPLITTER = Splitter.on('\n');
@@ -61,9 +62,14 @@ public class AlignedTablePrinter {
         }
         for (Object object : rows) {
             for (int i = 0; i < fieldNames.size(); i++) {
-
+                
                 final String fieldName = fieldNames.get(i).getName();
-                final String fieldValue = getFieldValue(fieldName, object);
+                String fieldValue = "";
+               
+                try {
+                    fieldValue = BeanUtils.getNestedProperty(object, fieldName);
+                } catch (Exception e) {
+                }
 
                 final String s = formatValue(fieldValue);
                 maxWidth[i] = max(maxWidth[i], maxLineLength(s));
@@ -97,7 +103,12 @@ public class AlignedTablePrinter {
             for (int i = 0; i < columns; i++) {
 
                 final String fieldName = fieldNames.get(i).getName();
-                final String fieldValue = getFieldValue(fieldName, object);
+                String fieldValue = "";
+                
+                try {
+                    fieldValue = BeanUtils.getNestedProperty(object, fieldName);
+                } catch (Exception e) {
+                }
 
                 final String s = formatValue(fieldValue);
                 final ImmutableList<String> lines = ImmutableList.copyOf(LINE_SPLITTER.split(s));
@@ -114,7 +125,12 @@ public class AlignedTablePrinter {
                     final String s = (line < lines.size()) ? lines.get(line) : "";
 
                     final String fieldName = fieldNames.get(column).getName();
-                    final String fieldValue = getFieldValue(fieldName, object);
+                    String fieldValue = "";
+                    
+                    try {
+                        fieldValue = BeanUtils.getNestedProperty(object, fieldName);
+                    } catch (Exception e) {
+                    }
 
                     boolean numeric = false;
                     try {
@@ -163,18 +179,5 @@ public class AlignedTablePrinter {
             n = max(n, new AnsiString(line).length());
         }
         return n;
-    }
-
-    private String getFieldValue(String fieldName, Object object) {
-        try {
-            final Class<? extends Object> cls = object.getClass();
-            final Field declaredField = cls.getDeclaredField(fieldName);
-            declaredField.setAccessible(true);
-
-            return declaredField.get(object).toString();
-        } catch (Exception e) {
-        }
-
-        return "";
     }
 }

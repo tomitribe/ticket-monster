@@ -241,6 +241,11 @@
       <artifactId>guava</artifactId>
       <version>10.0.1</version>
     </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.2</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -553,6 +558,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.4.3</version>
             <configuration>
+              <skip>true</skip>
               <systemPropertyVariables>
                 <tomee.classifier>${tomee.classifier}</tomee.classifier>
                 <tomee.version>${tomee.version}</tomee.version>
@@ -673,7 +679,7 @@
             <configuration>
               <tomeeVersion>1.7.1</tomeeVersion>
               <tomeeClassifier>plus</tomeeClassifier>
-              <debug>true</debug>
+              <debug>false</debug>
       	      <debugPort>5005</debugPort>
       	      <args>-Dopenejb.validation.output.level=VERBOSE</args>
               <simpleLog>true</simpleLog>
