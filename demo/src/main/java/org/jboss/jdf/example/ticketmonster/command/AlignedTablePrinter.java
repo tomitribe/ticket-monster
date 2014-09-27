@@ -22,6 +22,7 @@ import static java.lang.String.format;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -51,7 +52,7 @@ public class AlignedTablePrinter {
         writer.flush();
     }
 
-    public void printRows(List<? extends Object> rows, boolean complete)
+    public void printRows(Collection<? extends Object> rows, boolean complete)
             throws IOException {
         rowCount += rows.size();
         int columns = fieldNames.size();
