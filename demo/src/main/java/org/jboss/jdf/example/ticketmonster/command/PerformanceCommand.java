@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -13,8 +14,9 @@ import javax.validation.constraints.Min;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.jboss.jdf.example.ticketmonster.rest.EventCategoryEndpoint;
-import org.jboss.jdf.example.ticketmonster.rest.dto.EventCategoryDTO;
+import org.jboss.jdf.example.ticketmonster.rest.PerformanceEndpoint;
+import org.jboss.jdf.example.ticketmonster.rest.dto.NestedShowDTO;
+import org.jboss.jdf.example.ticketmonster.rest.dto.PerformanceDTO;
 import org.tomitribe.crest.api.Command;
 import org.tomitribe.crest.api.Default;
 import org.tomitribe.crest.api.Option;
@@ -23,17 +25,17 @@ import org.tomitribe.crest.api.StreamingOutput;
 import org.tomitribe.crest.connector.api.CrestListener;
 
 @Interceptors({ CountInterceptor.class })
-@MessageDriven(name = "EventCategory")
-@Command("eventcategory")
-public class EventCategoryCommand implements CrestListener {
+@MessageDriven(name = "Performance")
+@Command("performance")
+public class PerformanceCommand implements CrestListener {
 
     @EJB
-    private EventCategoryEndpoint service;
+    private PerformanceEndpoint service;
 
     @Command
     public StreamingOutput list(@Option({"first", "f"}) @Default("0") @Min(0) Integer first, @Option({"max", "m"}) @Default("10") @Min(1) Integer max) {
 
-        final List<EventCategoryDTO> results = service.listAll(first, max);
+        final List<PerformanceDTO> results = service.listAll(first, max);
 
         return new StreamingOutput() {
 
@@ -43,7 +45,11 @@ public class EventCategoryCommand implements CrestListener {
 
                 List<DisplayField> fieldNames = Arrays.asList(new DisplayField[]{
                         new DisplayField("id", "ID"),
-                        new DisplayField("description", "Description")
+                        new DisplayField("date", "Date"),
+                        new DisplayField("displayTitle", "Title"),
+                        new DisplayField("show.id", "Show ID"),
+                        new DisplayField("show.event.name", "Event"),
+                        new DisplayField("show.venue.name", "Venue"),
                 });
 
                 final AlignedTablePrinter tablePrinter = new AlignedTablePrinter(fieldNames, pw);
@@ -55,37 +61,45 @@ public class EventCategoryCommand implements CrestListener {
     
     @Command
     public String insert(
-            final @Option({"description"}) String description) {
+            final @Option({"date"}) @Required Date date,
+            final @Option({"showid"}) @Required Long showid) {
         
-        final EventCategoryDTO eventCategory = new EventCategoryDTO();
-        eventCategory.setDescription(description);
-        
-        final Response response = service.create(eventCategory);
+        final PerformanceDTO performance = new PerformanceDTO();
+        final NestedShowDTO show = new NestedShowDTO();
+        show.setId(showid);
+        performance.setDate(date);
+
+        final Response response = service.create(performance);
         if (Status.CREATED.getStatusCode() == response.getStatus()) {
-            return "New event category created.";
+            return "New performance created.";
         } else {
-            return "Error creating event category";
+            return "Error creating performance.";
         }
     }
 
     @Command
     public String update(
             final @Option({"id"}) @Required Long id,
-            final @Option({"description"}) String description) {
+            final @Option({"date"}) Date date,
+            final @Option({"showid"}) Long showid) {
         
         final Response response = service.findById(id);
         if (Status.OK.getStatusCode() != response.getStatus()) {
-            return "Event category with ID " + id + " not found.";
+            return "Performance with ID " + id + " not found.";
         }
         
-        final EventCategoryDTO eventCategory = (EventCategoryDTO) response.getEntity();
+        final PerformanceDTO performance = (PerformanceDTO) response.getEntity();
 
-        if (description != null) {
-            eventCategory.setDescription(description);
+        if (date != null) {
+            performance.setDate(date);
         }
         
-        service.update(id, eventCategory);
-        return "Event category with ID " + id + " updated.";
+        if (showid != null) {
+            performance.getShow().setId(showid);
+        }
+        
+        service.update(id, performance);
+        return "Performance with ID " + id + " updated.";
     }
 
 }

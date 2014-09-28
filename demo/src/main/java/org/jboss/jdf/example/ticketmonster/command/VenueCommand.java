@@ -62,7 +62,7 @@ public class VenueCommand implements CrestListener {
     public String insert(
             final @Option({"name"}) @Required String name, 
             final @Option({"capacity"}) @Required Integer capacity, 
-            final @Option({"description"}) String description, 
+            final @Option({"description"}) @Required String description, 
             final @Option({"url"}) @Required String url, 
             final @Option({"street"}) @Required String street, 
             final @Option({"city"}) @Required String city, 

@@ -59,7 +59,7 @@ public class EventCommand implements CrestListener {
     @Command
     public String insert(
             final @Option({"categoryid"}) @Required Long categoryId,
-            final @Option({"description"}) String description,
+            final @Option({"description"}) @Required String description,
             final @Option({"name"}) @Required String name,
             final @Option({"url"}) String url) {
         
@@ -95,7 +95,7 @@ public class EventCommand implements CrestListener {
         
         final Response response = service.findById(id);
         if (Status.OK.getStatusCode() != response.getStatus()) {
-            return "Ticket category with ID " + id + " not found.";
+            return "Event with ID " + id + " not found.";
         }
         
         final EventDTO event = (EventDTO) response.getEntity();
