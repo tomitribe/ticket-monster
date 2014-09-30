@@ -222,6 +222,24 @@
       <groupId>org.tomitribe</groupId>
       <artifactId>crest-connector-impl</artifactId>
       <version>1.0.0-SNAPSHOT</version>
+      <exclusions>
+      	<exclusion>
+      		<artifactId>bval-jsr303</artifactId>
+      		<groupId>org.apache.bval</groupId>
+      	</exclusion>
+      	<exclusion>
+      		<artifactId>xbean-finder-shaded</artifactId>
+      		<groupId>org.apache.xbean</groupId>
+      	</exclusion>
+      	<exclusion>
+      		<artifactId>xbean-asm5-shaded</artifactId>
+      		<groupId>org.apache.xbean</groupId>
+      	</exclusion>
+      	<exclusion>
+      		<artifactId>geronimo-validation_1.0_spec</artifactId>
+      		<groupId>org.apache.geronimo.specs</groupId>
+      	</exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -229,7 +247,6 @@
       <artifactId>tomitribe-crest-api</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
-
 
     <dependency>
       <groupId>org.fusesource.jansi</groupId>
@@ -521,15 +538,22 @@
           <groupId>org.apache.openejb</groupId>
           <artifactId>arquillian-tomee-remote</artifactId>
           <version>${tomee.version}</version>
+          <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.openejb</groupId>
           <artifactId>apache-tomee</artifactId>
           <version>${tomee.version}</version>
           <classifier>${tomee.classifier}</classifier>
+          <scope>test</scope>
           <type>zip</type>
         </dependency>
-        
+        <dependency>
+          <groupId>org.apache.openejb</groupId>
+          <artifactId>tomee-jaxrs</artifactId>
+          <version>${tomee.version}</version>
+          <scope>test</scope>
+        </dependency>
         <!-- Dependencies for Jackson CXF provider -->
         <dependency>
           <groupId>org.codehaus.jackson</groupId>
@@ -558,7 +582,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.4.3</version>
             <configuration>
-              <skip>true</skip>
+              <skip>false</skip>
               <systemPropertyVariables>
                 <tomee.classifier>${tomee.classifier}</tomee.classifier>
                 <tomee.version>${tomee.version}</tomee.version>
@@ -630,11 +654,13 @@
           <groupId>org.apache.openejb</groupId>
           <artifactId>arquillian-tomee-embedded</artifactId>
           <version>${tomee.version}</version>
+          <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>org.apache.openejb</groupId>
           <artifactId>tomee-jaxrs</artifactId>
           <version>${tomee.version}</version>
+          <scope>test</scope>
         </dependency>
         <!-- Dependencies for Jackson CXF provider -->
         <dependency>
@@ -681,7 +707,7 @@
               <tomeeClassifier>plus</tomeeClassifier>
               <debug>false</debug>
       	      <debugPort>5005</debugPort>
-      	      <args>-Dopenejb.validation.output.level=VERBOSE</args>
+      	      <args>-Dopenejb.validation.output.level=VERBOSE -Dopenejb.check.classloader=true</args>
               <simpleLog>true</simpleLog>
             </configuration>
           </plugin>
