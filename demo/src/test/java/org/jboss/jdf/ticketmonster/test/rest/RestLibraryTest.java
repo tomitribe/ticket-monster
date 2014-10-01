@@ -15,7 +15,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-@Ignore
 @RunWith(Arquillian.class)
 public class RestLibraryTest {
 
@@ -233,6 +232,7 @@ public class RestLibraryTest {
     }
 
 
+    @Ignore
     @Test
     @GET
     @Path("rest/metrics/")
